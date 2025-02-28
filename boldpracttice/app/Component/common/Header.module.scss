@@ -1,0 +1,38 @@
+.headerContainerWrapper {
+  background-color: #214555;
+  background-image: url("/img/starlight.jpg"); /* public/img フォルダ内の画像を指定 */
+  background-size: cover; /* 背景画像をコンテナ全体に広げる */
+  background-position: center; /* 背景画像を中央に配置 */
+  background-repeat: no-repeat; /* 画像が繰り返し表示されないようにする */
+}
+
+.headerContainer {
+  width: 694px;
+}
+
+.headerInner {
+  padding: 25px 10px;
+}
+.headerText {
+  font-size: 26px;
+  font-weight: bold;
+  padding: 10px 0 0 20px;
+  margin: 0;
+  color: #f3e6d2;
+}
+
+.headerDescription {
+  line-height: 1.2;
+  color: #f3f2eb;
+  margin: 0.5em 0 1em 20px;
+}
+
+.headerLink {
+  font-weight: bold;
+  color: #f3e6d2;
+  text-decoration: none;
+}
+h1 a:hover {
+  color: #e8f3f9;
+  text-decoration: none;
+}
