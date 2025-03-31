@@ -17,7 +17,9 @@ const Home: React.FC = () => {
             <div className="side-title">menu</div>
             <div className="side">
               <ul>
-                <li>記事ページへのリンク</li>
+                <li>
+                  <a href="/subpage/">JavaScript Tips</a>
+                </li>
                 <li>記事ページへのリンク</li>
               </ul>
             </div>
