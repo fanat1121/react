@@ -20,7 +20,12 @@ const Home: React.FC = () => {
                 <li>
                   <a href="/subpage/">JavaScript Tips</a>
                 </li>
-                <li>記事ページへのリンク</li>
+                <li>
+                  <a href="/hooktestPage">New Page</a>
+                </li>
+                <li>
+                  <a href="/block/">block</a>
+                </li>
               </ul>
             </div>
           </div>
