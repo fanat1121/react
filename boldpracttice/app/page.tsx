@@ -21,7 +21,7 @@ const Home: React.FC = () => {
                   <a href="/subpage/">JavaScript Tips</a>
                 </li>
                 <li>
-                  <a href="/hooktestPage">New Page</a>
+                  <a href="/hooktestPage">hooktestPage</a>
                 </li>
                 <li>
                   <a href="/block/">block</a>
