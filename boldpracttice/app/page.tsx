@@ -24,7 +24,7 @@ const Home: React.FC = () => {
                   <a href="/hooktestPage">hooktestPage</a>
                 </li>
                 <li>
-                  <a href="/block/">block</a>
+                  <a href="/block/">テトリス</a>
                 </li>
               </ul>
             </div>
