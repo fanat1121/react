@@ -1,9 +1,16 @@
-const Home: React.FC = () => {
+import React from 'react';
+import QuoteViewContainer from './components/quote/QuoteViewContainer'; // 分割したコンポーネントをインポートしますわ！
+
+// ----------------------------------- 
+// ホーム画面 (サーバーコンポーネント)
+// -----------------------------------
+const Home = () => {
   return (
     <div>
       <div id="content-wrapper">
         <main>
           <div id="inner">
+          <QuoteViewContainer />
             <h2>記事ページ見出し・大</h2>
             <p>文章あれこれ</p>
             <h3>記事ページ見出し・中</h3>
@@ -36,3 +43,4 @@ const Home: React.FC = () => {
 };
 
 export default Home;
+
