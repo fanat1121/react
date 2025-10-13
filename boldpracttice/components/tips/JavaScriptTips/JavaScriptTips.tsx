@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../styles/javascript-tips.module.scss";
+import styles from "./JavaScriptTips.module.scss";
 
 const JavaScriptTips: React.FC = () => {
   return (

@@ -32,11 +32,11 @@
   border-radius: 5px;
   box-sizing: border-box;
   transition: border-color 0.3s ease;
-}
 
-.input:focus {
-  outline: none;
-  border-color: #007bff;
+  &:focus {
+    outline: none;
+    border-color: #007bff;
+  }
 }
 
 .result {

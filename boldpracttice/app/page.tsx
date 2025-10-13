@@ -1,5 +1,5 @@
 import React from 'react';
-import QuoteViewContainer from './components/quote/QuoteViewContainer'; // 分割したコンポーネントをインポートしますわ！
+import { QuoteViewContainer } from '@/components/quote';
 
 // ----------------------------------- 
 // ホーム画面 (サーバーコンポーネント)
@@ -25,13 +25,16 @@ const Home = () => {
             <div className="side">
               <ul>
                 <li>
-                  <a href="/subpage/">JavaScript Tips</a>
+                  <a href="/javascript-tips">JavaScript Tips</a>
                 </li>
                 <li>
-                  <a href="/hooktestPage">hooktestPage</a>
+                  <a href="/python-bugs">Python Bugs</a>
                 </li>
                 <li>
-                  <a href="/block/">テトリス</a>
+                  <a href="/hooks-demo">ドロップ期待値計算機</a>
+                </li>
+                <li>
+                  <a href="/block">テトリス</a>
                 </li>
               </ul>
             </div>

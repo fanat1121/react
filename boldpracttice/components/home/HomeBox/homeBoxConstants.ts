@@ -1,4 +1,4 @@
-import { HomeBoxData } from "./homeBox";
+import { HomeBoxData } from "./HomeBox";
 
 export const HOME_BOX_CONST: HomeBoxData[] = [
   {
