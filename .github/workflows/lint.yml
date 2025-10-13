@@ -17,9 +17,12 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
+          cache-dependency-path: './boldpracttice/package-lock.json'
 
       - name: Install dependencies
         run: npm ci
+        working-directory: ./boldpracttice
 
       - name: Run ESLint
         run: npm run lint
+        working-directory: ./boldpracttice
