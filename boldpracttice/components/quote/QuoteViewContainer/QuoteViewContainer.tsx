@@ -1,5 +1,5 @@
 import React from 'react';
-import QuoteView, { QuoteData } from './QuoteView';
+import QuoteView, { QuoteData } from '../QuoteView/QuoteView';
 
 // ----------------------------------
 // コンテナコンポーネント (サーバーコンポーネント)

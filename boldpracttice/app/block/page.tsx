@@ -1,8 +1,8 @@
 import React from "react";
-import Tetris from "./Component/tetris";
+import { TetrisGame } from "@/components/tetris";
 
-const Subpage: React.FC = () => {
-  return <Tetris />;
+const BlockPage: React.FC = () => {
+  return <TetrisGame />;
 };
 
-export default Subpage;
+export default BlockPage;

@@ -1,6 +1,6 @@
 import React from "react";
 import clsx from "clsx";
-import styles from "./homeBox.module.scss";
+import styles from "./HomeBox.module.scss";
 
 export interface HomeBoxData {
   href: string;

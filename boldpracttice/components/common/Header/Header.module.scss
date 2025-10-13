@@ -31,8 +31,9 @@
   font-weight: bold;
   color: #f3e6d2;
   text-decoration: none;
-}
-h1 a:hover {
-  color: #e8f3f9;
-  text-decoration: none;
+
+  &:hover {
+    color: #e8f3f9;
+    text-decoration: none;
+  }
 }

@@ -3,7 +3,7 @@
 import React, { useState, useMemo } from "react";
 import styles from "./page.module.scss";
 
-const NewPage: React.FC = () => {
+const HooksDemoPage: React.FC = () => {
   const [trials, setTrials] = useState(0);
   const [dropRate, setDropRate] = useState("1"); // ドロップ率をパーセントで管理
 
@@ -61,4 +61,4 @@ const NewPage: React.FC = () => {
   );
 };
 
-export default NewPage;
+export default HooksDemoPage;

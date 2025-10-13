@@ -1,8 +1,9 @@
 import React from "react";
+import styles from "./PythonBugList.module.scss";
 
-const PythonBugList = () => {
+const PythonBugList: React.FC = () => {
   return (
-    <div>
+    <div className={styles["python-bug-list"]}>
       <h1>Pythonのバグのリスト</h1>
       <h2>よく発生しがちなエラー</h2>
       <ul>

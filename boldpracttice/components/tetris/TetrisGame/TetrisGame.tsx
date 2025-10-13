@@ -89,7 +89,7 @@ const Tetris: React.FC = () => {
 
   const handlePlaceTetrominoAndSpawnNew = useCallback(() => {
     setBoard(prevBoard => {
-      let newBoard = prevBoard.map(row => [...row]);
+      const newBoard = prevBoard.map(row => [...row]);
       currentTetromino.shape.forEach((row, y) => {
         row.forEach((value, x) => {
           if (value !== 0) {
