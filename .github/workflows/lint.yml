@@ -20,6 +20,8 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+        working-directory: ./boldpracttice
 
       - name: Run ESLint
         run: npm run lint
+        working-directory: ./boldpracttice
