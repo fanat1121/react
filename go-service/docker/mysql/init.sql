@@ -1,0 +1,5 @@
+-- このファイルは使用されていません
+-- 実際のスキーマ定義は以下を参照してください：
+-- f:/practice/bold/react project/react/docker/mysql/init/01_init.sql
+--
+-- Docker Composeで起動する場合、docker/mysql/init/ 配下のSQLが自動実行されます
