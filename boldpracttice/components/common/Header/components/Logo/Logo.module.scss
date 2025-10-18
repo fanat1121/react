@@ -1,0 +1,39 @@
+.logoLink {
+  display: inline-block;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.logoBox {
+  min-width: 120px;
+  height: 50px;
+  padding: 0 20px;
+  background-color: #214555;
+  background-image: url("/img/starlight.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.logoText {
+  font-size: 22px;
+  font-weight: 600;
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
+  font-style: italic;
+  color: #ffffff;
+  letter-spacing: 0.15em;
+  text-transform: lowercase;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  font-feature-settings: 'ss01' on, 'cv05' on;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
