@@ -54,11 +54,10 @@ func main() {
 	log.Printf("🚀 Go microservice starting on port %s", port)
 	log.Println("📡 Available endpoints:")
 	log.Println("  GET    /api/health")
-	log.Println("  POST   /api/users                         - ユーザー登録")
+	log.Println("  POST   /api/users/register                - ユーザー登録")
 	log.Println("  GET    /api/users                         - 全ユーザー取得")
-	log.Println("  GET    /api/users?id=123                  - ユーザー取得（ID指定）")
-	log.Println("  GET    /api/users?email=xxx               - ユーザー取得（メール指定）")
-	log.Println("  GET    /api/users?user_login_id=xxx       - ユーザー取得（ログインID指定）")
+	log.Println("  GET    /api/users?user_code=1             - ユーザー取得（user_code指定）")
+	log.Println("  POST   /api/users/search                  - ユーザー検索（メール・ログインID）")
 	log.Println("  DELETE /api/users/{id}                    - ユーザー削除（論理削除）")
 
 	if err := http.ListenAndServe(":"+port, corsHandler); err != nil {

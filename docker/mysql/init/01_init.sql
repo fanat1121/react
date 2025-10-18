@@ -4,7 +4,7 @@
 -- ユーザーマスターテーブルの作成
 CREATE TABLE user_master (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    user_code VARCHAR(20) UNIQUE NOT NULL,
+    user_code BIGINT UNIQUE NOT NULL,
     user_name VARCHAR(64) NOT NULL,
     user_login_id VARCHAR(64) UNIQUE NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
@@ -21,6 +21,6 @@ CREATE TABLE user_master (
 
 -- サンプルデータ（開発用）
 INSERT INTO user_master (user_code, user_name, user_login_id, email, password_hash, is_invalid) VALUES
-('USR001', 'テストユーザー', 'testuser', 'test@example.com', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', 0),
-('USR002', '管理者', 'admin', 'admin@example.com', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', 0);
+(1, 'テストユーザー', 'testuser', 'test@example.com', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', 0),
+(2, '管理者', 'admin', 'admin@example.com', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', 0);
 -- パスワードは両方とも "password123" のハッシュ値

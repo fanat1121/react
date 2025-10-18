@@ -3,7 +3,6 @@ package user
 import (
 	"database/sql"
 	"errors"
-	"fmt"
 	"go-service/internal/user/query"
 	"go-service/pkg/database"
 	"time"
@@ -44,13 +43,13 @@ func (r *MySQLRepository) Create(user *User) error {
 		return errors.New("user_login_id already exists")
 	}
 
-	// ユーザーコード生成（USR + 連番）
+	// ユーザーコード生成（IDと同じ値）
 	var maxID int
 	err = r.db.QueryRow(r.query.GetMaxID()).Scan(&maxID)
 	if err != nil {
 		return err
 	}
-	userCode := fmt.Sprintf("USR%03d", maxID+1)
+	userCode := maxID + 1
 
 	// ユーザー挿入
 	now := time.Now()
@@ -91,6 +90,32 @@ func (r *MySQLRepository) Create(user *User) error {
 func (r *MySQLRepository) GetByID(id int) (*User, error) {
 	user := &User{}
 	err := r.db.QueryRow(r.query.SelectByID(), id).Scan(
+		&user.ID,
+		&user.UserCode,
+		&user.UserName,
+		&user.UserLoginID,
+		&user.Email,
+		&user.PasswordHash,
+		&user.EmailVerifiedAt,
+		&user.RegisteredAt,
+		&user.RegistrationSource,
+		&user.UpdateCount,
+		&user.UpdatedAt,
+		&user.IsInvalid,
+	)
+	if err == sql.ErrNoRows {
+		return nil, errors.New("user not found")
+	}
+	if err != nil {
+		return nil, err
+	}
+	return user, nil
+}
+
+// GetByUserCode ユーザーコードでユーザーを取得
+func (r *MySQLRepository) GetByUserCode(userCode int) (*User, error) {
+	user := &User{}
+	err := r.db.QueryRow(r.query.SelectByUserCode(), userCode).Scan(
 		&user.ID,
 		&user.UserCode,
 		&user.UserName,

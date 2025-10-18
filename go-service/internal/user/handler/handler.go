@@ -26,7 +26,7 @@ func NewHandler(commandService *service.CommandService, queryService *service.Qu
 }
 
 // CreateUser ユーザー登録
-// POST /api/users
+// POST /api/users/register
 func (h *Handler) CreateUser(w http.ResponseWriter, r *http.Request) {
 	var req user.CreateUserRequest
 
@@ -48,47 +48,21 @@ func (h *Handler) CreateUser(w http.ResponseWriter, r *http.Request) {
 	response.Created(w, createdUser)
 }
 
-// GetUsers ユーザー検索（複数条件対応）
-// GET /api/users                       - 全ユーザー取得
-// GET /api/users?id=123                - ID指定
-// GET /api/users?email=xxx             - メールアドレス指定
-// GET /api/users?user_login_id=xxx     - ログインID指定
+// GetUsers ユーザー取得
+// GET /api/users              - 全ユーザー取得
+// GET /api/users?user_code=1  - user_code指定取得
 func (h *Handler) GetUsers(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
 
-	// ID指定
-	if idStr := query.Get("id"); idStr != "" {
-		id, err := strconv.Atoi(idStr)
+	// user_code指定
+	if userCodeStr := query.Get("user_code"); userCodeStr != "" {
+		userCode, err := strconv.Atoi(userCodeStr)
 		if err != nil {
-			response.BadRequest(w, "Invalid user ID")
+			response.BadRequest(w, "Invalid user_code")
 			return
 		}
 
-		foundUser, err := h.queryService.GetUserByID(id)
-		if err != nil {
-			response.NotFound(w, "User not found")
-			return
-		}
-
-		response.Success(w, foundUser)
-		return
-	}
-
-	// メールアドレス指定
-	if email := query.Get("email"); email != "" {
-		foundUser, err := h.queryService.GetUserByEmail(email)
-		if err != nil {
-			response.NotFound(w, "User not found")
-			return
-		}
-
-		response.Success(w, foundUser)
-		return
-	}
-
-	// ログインID指定
-	if loginID := query.Get("user_login_id"); loginID != "" {
-		foundUser, err := h.queryService.GetUserByLoginID(loginID)
+		foundUser, err := h.queryService.GetUserByUserCode(userCode)
 		if err != nil {
 			response.NotFound(w, "User not found")
 			return
@@ -106,6 +80,41 @@ func (h *Handler) GetUsers(w http.ResponseWriter, r *http.Request) {
 	}
 
 	response.Success(w, users)
+}
+
+// SearchUsers ユーザー検索（機密情報を含む）
+// POST /api/users/search
+func (h *Handler) SearchUsers(w http.ResponseWriter, r *http.Request) {
+	var req user.SearchUserRequest
+
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		response.BadRequest(w, "Invalid request body")
+		return
+	}
+
+	// メールアドレスで検索
+	if req.Email != "" {
+		foundUser, err := h.queryService.GetUserByEmail(req.Email)
+		if err != nil {
+			response.NotFound(w, "User not found")
+			return
+		}
+		response.Success(w, foundUser)
+		return
+	}
+
+	// ログインIDで検索
+	if req.UserLoginID != "" {
+		foundUser, err := h.queryService.GetUserByLoginID(req.UserLoginID)
+		if err != nil {
+			response.NotFound(w, "User not found")
+			return
+		}
+		response.Success(w, foundUser)
+		return
+	}
+
+	response.BadRequest(w, "Search criteria required (email or user_login_id)")
 }
 
 // DeleteUser ユーザー削除（論理削除）
@@ -130,7 +139,15 @@ func (h *Handler) DeleteUser(w http.ResponseWriter, r *http.Request) {
 
 // RegisterRoutes ルートを登録
 func (h *Handler) RegisterRoutes(router *mux.Router) {
-	router.HandleFunc("/api/users", h.CreateUser).Methods("POST")
+	// 登録
+	router.HandleFunc("/api/users/register", h.CreateUser).Methods("POST")
+	
+	// 取得（クエリパラメータで条件指定）
 	router.HandleFunc("/api/users", h.GetUsers).Methods("GET")
+	
+	// 検索（機密情報）
+	router.HandleFunc("/api/users/search", h.SearchUsers).Methods("POST")
+	
+	// 削除
 	router.HandleFunc("/api/users/{id}", h.DeleteUser).Methods("DELETE")
 }

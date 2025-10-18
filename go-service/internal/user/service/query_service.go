@@ -60,3 +60,13 @@ func (s *QueryService) GetUserByLoginID(loginID string) (*user.UserResponse, err
 
 	return foundUser.ToResponse(), nil
 }
+
+// GetUserByUserCode ユーザーコードでユーザーを取得
+func (s *QueryService) GetUserByUserCode(userCode int) (*user.UserResponse, error) {
+	foundUser, err := s.repo.GetByUserCode(userCode)
+	if err != nil {
+		return nil, err
+	}
+
+	return foundUser.ToResponse(), nil
+}
