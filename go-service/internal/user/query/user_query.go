@@ -30,6 +30,17 @@ func (q *UserQuery) SelectByID() string {
 	`
 }
 
+// SelectByUserCode ユーザーコード検索SQL
+func (q *UserQuery) SelectByUserCode() string {
+	return `
+		SELECT id, user_code, user_name, user_login_id, email, password_hash, 
+		       email_verified_at, registered_at, registration_source, 
+		       update_count, updated_at, is_invalid
+		FROM user_master
+		WHERE user_code = ? AND is_invalid = 0
+	`
+}
+
 // SelectByEmail メールアドレス検索SQL
 func (q *UserQuery) SelectByEmail() string {
 	return `

@@ -2,7 +2,6 @@ package user
 
 import (
 	"errors"
-	"fmt"
 	"sync"
 	"time"
 )
@@ -11,6 +10,7 @@ import (
 type Repository interface {
 	Create(user *User) error
 	GetByID(id int) (*User, error)
+	GetByUserCode(userCode int) (*User, error)
 	GetByEmail(email string) (*User, error)
 	GetByLoginID(loginID string) (*User, error)
 	GetAll() ([]*User, error)
@@ -48,12 +48,11 @@ func (r *InMemoryRepository) Create(user *User) error {
 		}
 	}
 
-	// ユーザーコード生成
-	userCode := fmt.Sprintf("USR%03d", r.nextID)
+	// ユーザーコード生成（IDと同じ値）
 	now := time.Now()
 
 	user.ID = r.nextID
-	user.UserCode = userCode
+	user.UserCode = r.nextID
 	user.RegisteredAt = now
 	user.RegistrationSource = "web"
 	user.UpdateCount = 0
@@ -76,6 +75,20 @@ func (r *InMemoryRepository) GetByID(id int) (*User, error) {
 	}
 
 	return user, nil
+}
+
+// GetByUserCode ユーザーコードでユーザーを取得
+func (r *InMemoryRepository) GetByUserCode(userCode int) (*User, error) {
+	r.mu.RLock()
+	defer r.mu.RUnlock()
+
+	for _, user := range r.users {
+		if user.UserCode == userCode && !user.IsInvalid {
+			return user, nil
+		}
+	}
+
+	return nil, errors.New("user not found")
 }
 
 // GetByEmail メールアドレスでユーザーを取得
