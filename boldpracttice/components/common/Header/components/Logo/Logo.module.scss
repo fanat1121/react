@@ -9,15 +9,15 @@
 }
 
 .logoBox {
-  min-width: 120px;
-  height: 50px;
-  padding: 0 20px;
+  min-width: 180px;
+  height: 70px;
+  padding: 0 28px;
   background-color: #214555;
   background-image: url("/img/starlight.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  border-radius: 8px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -25,7 +25,7 @@
 }
 
 .logoText {
-  font-size: 22px;
+  font-size: 30px;
   font-weight: 600;
   font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
   font-style: italic;
