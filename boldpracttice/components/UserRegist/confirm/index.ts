@@ -1,0 +1,1 @@
+export { UserRegistConfirm } from './UserRegistConfirm';

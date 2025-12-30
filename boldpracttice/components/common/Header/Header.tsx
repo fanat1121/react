@@ -3,6 +3,8 @@
 import styles from "./Header.module.scss";
 import { Logo } from "./components/Logo";
 import { HeaderMenu, MENU_ITEMS } from "./components/HeaderMenu";
+import { Button, BUTTON_VARIANTS, BUTTON_SIZES, BUTTON_ELEMENTS } from "@/components/common/ui/Button";
+import { PATH_LOGIN, PATH_REGISTER } from "@/config/const/paths";
 
 export const HeaderComponent: React.FC = () => {
   // TODO: 実際のユーザー情報取得ロジックを実装
@@ -10,6 +12,9 @@ export const HeaderComponent: React.FC = () => {
     isLoggedIn: false,
     userName: null as string | null,
   };
+
+  const LOGIN_BUTTON_TEXT = 'ログイン';
+  const REGISTER_BUTTON_TEXT = '新規登録';
 
   return (
     <header className={styles.headerContainerWrapper}>
@@ -29,8 +34,28 @@ export const HeaderComponent: React.FC = () => {
             </div>
           </div>
 
-          {/* 右側: ナビゲーションメニュー */}
-          <HeaderMenu items={MENU_ITEMS} />
+          {/* 右側: ナビゲーションメニュー + ボタン */}
+          <div className={styles.rightSection}>
+            <HeaderMenu items={MENU_ITEMS} />
+            <div className={styles.authButtons}>
+              <Button
+                element={BUTTON_ELEMENTS.LINK}
+                href={PATH_LOGIN}
+                variant={BUTTON_VARIANTS.SECONDARY}
+                size={BUTTON_SIZES.SMALL}
+              >
+                {LOGIN_BUTTON_TEXT}
+              </Button>
+              <Button
+                element={BUTTON_ELEMENTS.LINK}
+                href={PATH_REGISTER}
+                variant={BUTTON_VARIANTS.PRIMARY}
+                size={BUTTON_SIZES.SMALL}
+              >
+                {REGISTER_BUTTON_TEXT}
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
     </header>

@@ -25,6 +25,19 @@
   flex-shrink: 0;
 }
 
+// 右側セクション（メニュー + ボタン）
+.rightSection {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.authButtons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .userStatus {
   display: flex;
   align-items: center;

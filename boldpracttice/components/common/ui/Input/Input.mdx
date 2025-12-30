@@ -1,0 +1,61 @@
+import { Canvas, Meta } from '@storybook/blocks';
+import * as InputStories from './Input.stories';
+
+<Meta of={InputStories} />
+
+# Input
+
+共通のInput要素コンポーネントです。
+
+## 使い方
+
+```tsx
+import { Input, INPUT_TYPES } from '@/components/common/ui/Input';
+
+<Input
+  label="メールアドレス"
+  inputType={INPUT_TYPES.EMAIL}
+  placeholder="you@example.com"
+  required
+/>
+```
+
+## Features
+
+- サイズバリエーション (small, medium, large)
+- 複数のinputタイプ対応 (text, email, password, number, tel, url, date)
+- エラー表示機能
+- ラベル表示
+- 必須マーク自動表示
+- 無効化状態のサポート
+
+## Stories
+
+### Default
+
+<Canvas of={InputStories.Default} />
+
+### With Label
+
+<Canvas of={InputStories.WithLabel} />
+
+### Required
+
+<Canvas of={InputStories.Required} />
+
+### With Error
+
+<Canvas of={InputStories.WithError} />
+
+### Password
+
+<Canvas of={InputStories.Password} />
+
+### Disabled
+
+<Canvas of={InputStories.Disabled} />
+
+### Sizes
+
+<Canvas of={InputStories.Small} />
+<Canvas of={InputStories.Large} />

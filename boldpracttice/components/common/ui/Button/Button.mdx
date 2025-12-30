@@ -1,0 +1,76 @@
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as ButtonStories from './Button.stories';
+
+<Meta of={ButtonStories} />
+
+# Button
+
+汎用的なボタンコンポーネントです。buttonタグとaタグの両方に対応しています。
+
+## 機能
+
+- **variant**: primary, secondary, outline の3種類
+- **size**: small, medium, large の3サイズ
+- **as**: 'button' または 'a' でタグを切り替え
+- **color**: カスタム背景色を指定可能
+- **8pxグリッド準拠**: すべてのスペーシングは8pxの倍数
+
+## 使用例
+
+### ボタンとして使用
+
+```tsx
+import { Button, BUTTON_VARIANTS, BUTTON_SIZES } from '@/components/common/ui/Button';
+
+<Button 
+  variant={BUTTON_VARIANTS.PRIMARY} 
+  size={BUTTON_SIZES.MEDIUM}
+  onClick={() => console.log('clicked')}
+>
+  Click me
+</Button>
+```
+
+### リンクとして使用
+
+```tsx
+<Button 
+  as="a" 
+  href="/register"
+  variant={BUTTON_VARIANTS.PRIMARY}
+  size={BUTTON_SIZES.SMALL}
+>
+  Register
+</Button>
+```
+
+## Stories
+
+### Variants
+
+<Canvas of={ButtonStories.PrimaryButton} />
+<Canvas of={ButtonStories.SecondaryButton} />
+<Canvas of={ButtonStories.OutlineButton} />
+
+### Sizes
+
+<Canvas of={ButtonStories.SmallButton} />
+<Canvas of={ButtonStories.MediumButton} />
+<Canvas of={ButtonStories.LargeButton} />
+
+### States
+
+<Canvas of={ButtonStories.DisabledButton} />
+
+### As Link
+
+<Canvas of={ButtonStories.LinkButton} />
+
+### Header Buttons
+
+<Canvas of={ButtonStories.SignInButton} />
+<Canvas of={ButtonStories.RegisterButton} />
+
+## Props
+
+<Controls />
