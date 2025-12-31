@@ -1,0 +1,62 @@
+import { Canvas, Meta, Story } from '@storybook/blocks';
+import * as UserRegistFormStories from './UserRegistForm.stories';
+
+<Meta of={UserRegistFormStories} />
+
+# UserRegistForm
+
+ユーザー登録フォームコンポーネント。ユーザー名、メールアドレス、パスワード、パスワード確認の入力フィールドと登録ボタンを提供します。
+
+## 概要
+
+このコンポーネントは、ユーザー登録に必要な情報を入力するためのフォームです。
+各入力フィールドの状態管理と送信処理を内部で完結させています。
+
+## 特徴
+
+- **状態管理**: `useState`を使用して各フィールドの値を管理
+- **Client Component**: `'use client'`ディレクティブを使用
+- **完結型**: propsを受け取らず、内部で処理が完結
+- **送信処理**: ボタン押下時にコンソールログを出力
+
+## 使用例
+
+<Canvas of={UserRegistFormStories.Default} />
+
+## Props
+
+このコンポーネントはpropsを受け取りません。
+
+## フィールド
+
+### ユーザー名
+- ラベル: "ユーザー名"
+- タイプ: text
+
+### メールアドレス
+- ラベル: "メールアドレス"
+- タイプ: email
+
+### パスワード
+- ラベル: "パスワード"
+- タイプ: password
+
+### パスワード確認
+- ラベル: "パスワード確認"
+- タイプ: password
+
+## 使用方法
+
+```tsx
+import { UserRegistForm } from '@/components/UserRegist/input/components/UserRegistForm';
+
+export default function Page() {
+  return <UserRegistForm />;
+}
+```
+
+## 注意事項
+
+- このコンポーネントは`'use client'`を使用しているため、Client Componentです
+- フォーム送信時はコンソールログに登録データが出力されます
+- 実際のサーバーアクション呼び出しなどは、必要に応じて`handleSubmit`関数内に実装してください

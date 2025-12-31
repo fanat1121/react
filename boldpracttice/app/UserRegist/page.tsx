@@ -1,8 +1,8 @@
 import React from 'react';
 import { PythonBugList } from '@/components/tips/PythonBugList';
 
-const PythonBugsPage: React.FC = () => {
+const UserRegistInputPage: React.FC = () => {
   return <PythonBugList />;
 };
 
-export default PythonBugsPage;
+export default UserRegistInputPage;
