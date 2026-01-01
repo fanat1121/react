@@ -17,15 +17,15 @@
 }
 
 .button--primary {
-  background-color: #e74c3c;
+  background-color: #c0392b;
   color: #ffffff;
 
   &:hover:not(.button--disabled) {
-    background-color: #c0392b;
+    background-color: #a93226;
   }
 
   &:active:not(.button--disabled) {
-    background-color: #a93226;
+    background-color: #922b21;
   }
 }
 

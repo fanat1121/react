@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useId } from 'react';
 import styles from './Input.module.scss';
 import { INPUT_TYPES, INPUT_SIZES } from './const/inputVariants';
 import type { InputType, InputSize } from './const/inputVariants';
@@ -20,8 +20,12 @@ export const Input: React.FC<InputProps> = ({
   inputType = INPUT_TYPES.TEXT,
   className = '',
   disabled = false,
+  id,
   ...rest
 }) => {
+  const generatedId = useId();
+  const inputId = id || generatedId;
+
   const inputClasses = [
     styles.input,
     styles[`input--${size}`],
@@ -35,12 +39,13 @@ export const Input: React.FC<InputProps> = ({
   return (
     <div className={styles.inputWrapper}>
       {label && (
-        <label className={styles.label}>
+        <label htmlFor={inputId} className={styles.label}>
           {label}
           {rest.required && <span className={styles.required}>*</span>}
         </label>
       )}
       <input
+        id={inputId}
         type={inputType}
         className={inputClasses}
         disabled={disabled}
