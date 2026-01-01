@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 import redis from '@/lib/redis';
 import { validateUserRegistData } from '../services/validation';
+import { UserRegistFormData } from '@/components/UserRegist/types/UserRegistFormData';
 
 export type SaveFormDataResult = {
   success: boolean;
@@ -16,12 +17,7 @@ export type SaveFormDataResult = {
   sessionId?: string;
 };
 
-export async function saveFormData(formData: {
-  userName: string;
-  email: string;
-  password: string;
-  passwordConfirm: string;
-}): Promise<SaveFormDataResult> {
+export async function saveFormData(formData:UserRegistFormData): Promise<SaveFormDataResult> {
   const validationResult = await validateUserRegistData(formData);
 
   if (!validationResult.success) {

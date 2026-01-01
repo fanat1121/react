@@ -1,6 +1,7 @@
 'use server';
 
 import { userRegistSchema } from '@/components/UserRegist/schemas/schema';
+import { UserRegistFormData } from '@/components/UserRegist/types/UserRegistFormData';
 
 export type RegisterResult = {
   success: boolean;
@@ -13,12 +14,7 @@ export type RegisterResult = {
   };
 };
 
-export async function registerUser(formData: {
-  userName: string;
-  email: string;
-  password: string;
-  passwordConfirm: string;
-}): Promise<RegisterResult> {
+export async function registerUser(formData: UserRegistFormData): Promise<RegisterResult> {
   const result = userRegistSchema.safeParse(formData);
 
   if (!result.success) {
