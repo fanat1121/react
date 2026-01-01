@@ -3,7 +3,7 @@
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 import redis from '@/lib/redis';
-import { userRegistSchema } from '@/components/UserRegist/schemas/schema';
+import { validateUserRegistData } from '../services/validation';
 
 export type SaveFormDataResult = {
   success: boolean;
@@ -22,12 +22,12 @@ export async function saveFormData(formData: {
   password: string;
   passwordConfirm: string;
 }): Promise<SaveFormDataResult> {
-  const result = userRegistSchema.safeParse(formData);
+  const validationResult = await validateUserRegistData(formData);
 
-  if (!result.success) {
+  if (!validationResult.success) {
     return {
       success: false,
-      errors: result.error.flatten().fieldErrors,
+      errors: validationResult.errors,
     };
   }
 
@@ -35,7 +35,7 @@ export async function saveFormData(formData: {
   const key = `user_regist:${sessionId}`;
 
   try {
-    await redis.setex(key, 600, JSON.stringify(result.data));
+    await redis.setex(key, 600, JSON.stringify(validationResult.data));
   } catch {
     return {
       success: false,
