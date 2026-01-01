@@ -1,5 +1,11 @@
+import type { Metadata } from 'next';
 import React from 'react';
 import { QuoteViewContainer } from '@/components/quote';
+
+export const metadata: Metadata = {
+  title: 'Bold Practice',
+  description: 'Bold Practiceのホームページ',
+};
 
 // ----------------------------------- 
 // ホーム画面 (サーバーコンポーネント)

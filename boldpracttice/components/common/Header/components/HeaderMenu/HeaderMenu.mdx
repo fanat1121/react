@@ -1,0 +1,60 @@
+import { Canvas, Meta, Controls } from '@storybook/blocks';
+import * as HeaderMenuStories from './HeaderMenu.stories';
+
+<Meta of={HeaderMenuStories} />
+
+# HeaderMenu
+
+ヘッダーのナビゲーションメニューコンポーネントです。
+
+## 概要
+
+メニュー項目の配列を受け取り、ナビゲーションリンクを動的に生成します。
+
+## 使用方法
+
+```tsx
+import { HeaderMenu, MENU_ITEMS } from '@/components/common/Header/components/HeaderMenu';
+
+<HeaderMenu items={MENU_ITEMS} />
+```
+
+## Props
+
+- `items`: `MenuItem[]` - メニュー項目の配列
+  - `href`: `string` - リンク先のパス
+  - `label`: `string` - 表示するラベル
+
+## Stories
+
+### デフォルト
+
+<Canvas of={HeaderMenuStories.Default} />
+
+### カスタムメニュー
+
+<Canvas of={HeaderMenuStories.CustomItems} />
+
+### 空のメニュー
+
+<Canvas of={HeaderMenuStories.Empty} />
+
+## スタイル
+
+- ホバー時に背景色が変化
+- アクティブ時にスケールダウン
+- レスポンシブ対応
+
+## メニュー項目の追加
+
+メニュー項目を追加する場合は、`const/menuItems.ts`の`MENU_ITEMS`配列に追加してください。
+
+```typescript
+export const MENU_ITEMS: MenuItem[] = [
+  { href: '/hooks-demo', label: 'ドロップ計算機' },
+  { href: '/block', label: 'テトリス' },
+  { href: '/about', label: 'About' },
+  // 新しい項目を追加
+  { href: '/new-page', label: '新しいページ' },
+];
+```

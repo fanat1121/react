@@ -1,0 +1,7 @@
+export const PATH_HOME = '/'
+export const PATH_LOGIN = '/login'
+export const PATH_REGISTER = '/UserRegist'
+export const PATH_PYTHON_BUGS = '/python-bugs'
+export const PATH_BLOCK = '/block'
+export const PATH_HOOKS_DEMO = '/hooks-demo'
+export const PATH_JAVASCRIPT_TIPS = '/javascript-tips'

@@ -1,0 +1,1 @@
+export { UserRegistInput } from './UserRegistInput';

@@ -1,5 +1,6 @@
 import "@/styles/global.scss";
 import { HeaderComponent } from "@/components/common/Header";
+import { FooterComponent } from "@/components/common/Footer";
 import type { Metadata } from "next";
 // import { Geist, Geist_Mono } from "next/font/google";
 // import "./globals.css";
@@ -28,7 +29,8 @@ export default function RootLayout({
     <html lang="ja">
       <body>
         <HeaderComponent />
-        <main>{children}</main>
+        <main className="main-container">{children}</main>
+        <FooterComponent />
       </body>
     </html>
   );
