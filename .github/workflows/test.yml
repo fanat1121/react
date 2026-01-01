@@ -1,11 +1,11 @@
-name: Build
+name: Test
 
 on:
   push:
   pull_request:
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,6 +23,6 @@ jobs:
         run: npm ci
         working-directory: ./boldpracttice
 
-      - name: Run Build
-        run: npm run build
+      - name: Run unit tests
+        run: npm run test:unit
         working-directory: ./boldpracttice
