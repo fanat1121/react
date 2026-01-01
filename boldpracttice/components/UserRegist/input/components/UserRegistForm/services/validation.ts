@@ -67,7 +67,8 @@ export async function validateUserRegistData(formData: UserRegistFormData): Prom
     return {
       success: false,
       errors: {
-        password: ['このパスワードは漏洩データベースに存在します。別のパスワードを使用してください。'],
+        // TODO:具体的に安全なパスワード設定する手法に言及する
+        password: ['このパスワードは安全ではありません。別のパスワードを使用してください。推奨：辞書の単語や個人情報を避け、他サービスと異なる、推測されにくいパスワードをご使用ください。'],
       },
     };
   }
