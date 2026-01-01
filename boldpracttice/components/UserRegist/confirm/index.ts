@@ -1,1 +1,1 @@
-export { UserRegistConfirm } from './UserRegistConfirm';
+// export { UserRegistConfirm } from './UserRegistConfirm';
