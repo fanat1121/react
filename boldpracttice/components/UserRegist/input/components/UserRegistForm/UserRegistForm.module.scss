@@ -1,0 +1,10 @@
+@use '@/styles/variables';
+
+.formError {
+  margin-bottom: variables.$spacing_default * 2;
+  color: #e74c3c;
+}
+
+.submitButton {
+  margin-bottom: variables.$spacing_default * 4;
+}

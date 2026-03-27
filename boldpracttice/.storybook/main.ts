@@ -1,4 +1,5 @@
 import type { StorybookConfig } from "@storybook/nextjs-vite";
+import { mergeConfig } from "vite";
 
 const config: StorybookConfig = {
   "stories": [
@@ -20,6 +21,14 @@ const config: StorybookConfig = {
   },
   "staticDirs": [
     "../public"
-  ]
+  ],
+  viteFinal: (config) =>
+    mergeConfig(config, {
+      resolve: {
+        alias: {
+          ioredis: require.resolve("./__mocks__/ioredis.ts"),
+        },
+      },
+    }),
 };
 export default config;

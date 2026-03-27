@@ -16,4 +16,8 @@ export const MENU_ITEMS: MenuItem[] = [
     href: '/about',
     label: 'About',
   },
+  {
+    href: '/UserRegist',
+    label: '会員登録',
+  },
 ];

@@ -1,0 +1,45 @@
+@use '@/styles/variables';
+
+.errorMessage {
+  margin-top: variables.$spacing_default * 0.5;
+  font-size: 0.875rem;
+  color: #e74c3c;
+}
+
+.passwordWrapper {
+  position: relative;
+}
+
+.toggleButton {
+  position: absolute;
+  right: variables.$spacing_default * 1;
+  top: 0;
+  margin-top: variables.$spacing_default * 5;
+  background: transparent;
+  border: 1px solid #d0d0d0;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  line-height: 1;
+  padding: 6px 10px;
+  color: #666;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    color: #333;
+    border-color: #b0b0b0;
+  }
+
+  &:active {
+    color: #000;
+    background-color: #f0f0f0;
+  }
+
+  &:focus {
+    outline: 2px solid #4a90e2;
+    outline-offset: 2px;
+  }
+}
