@@ -1,6 +1,6 @@
 .headerContainerWrapper {
-  background-color: #214555;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: #0f1117;
+  border-bottom: 1px solid rgba(99, 102, 241, 0.2);
 }
 
 .headerContainer {
@@ -45,14 +45,15 @@
 
 .userInfo {
   margin: 0;
-  color: #f3f2eb;
+  color: #94a3b8;
   font-size: 14px;
   font-weight: 500;
+  letter-spacing: 0.01em;
 }
 
 .userName {
-  color: #e8f3f9;
-  font-weight: 600;
+  color: #818cf8;
+  font-weight: 700;
   margin: 0 4px;
 }
 
