@@ -11,35 +11,35 @@
   font-family: inherit;
 
   &:focus-visible {
-    outline: 2px solid #3498db;
+    outline: 2px solid #818cf8;
     outline-offset: 2px;
   }
 }
 
 .button--primary {
-  background-color: #c0392b;
+  background-color: #6366f1;
   color: #ffffff;
 
   &:hover:not(.button--disabled) {
-    background-color: #a93226;
+    background-color: #818cf8;
   }
 
   &:active:not(.button--disabled) {
-    background-color: #922b21;
+    background-color: #4f46e5;
   }
 }
 
 .button--secondary {
-  background-color: #ecf0f1;
-  color: #2c3e50;
-  border: 1px solid #bdc3c7;
+  background-color: transparent;
+  color: #818cf8;
+  border: 1px solid #6366f1;
 
   &:hover:not(.button--disabled) {
-    background-color: #d5dbdb;
+    background-color: rgba(99, 102, 241, 0.12);
   }
 
   &:active:not(.button--disabled) {
-    background-color: #bdc3c7;
+    background-color: rgba(99, 102, 241, 0.22);
   }
 }
 
