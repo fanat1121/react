@@ -51,6 +51,9 @@ docker-compose up    # Start MySQL + Redis + Go service
 - Container/View separation (e.g., `QuoteViewContainer` → `QuoteView`)
 - Multi-step forms: each step gets its own subdirectory (input → confirm → completion), with Zod schemas in `schemas/` and state managed by a custom hook in `hooks/`
 - Path alias `@/*` maps to `boldpracttice/`
+- Use `clsx` when applying multiple class names conditionally
+- CSS spacing must use multiples of 8px; use spacing variables from `@/styles/variables.scss` (`$spacing_1`〜`$spacing_6`)
+- Avoid magic numbers and magic strings; declare constants locally (`const` in the same file) for single-use values, or place them in the appropriate `const/` directory for shared use
 
 **Testing:** Vitest has two projects — `unit` (Node env, for utilities in `utils/__tests__/`) and `storybook` (Playwright browser env, for component stories).
 

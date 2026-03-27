@@ -1,9 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { saveFormData } from '../actions/saveFormData';
+import { useRouter } from 'next/navigation';
+import { registerUser } from '../actions/register';
+import { PATH_REGISTER } from '@/config/const/paths';
 
 export const useUserRegistForm = () => {
+  const router = useRouter();
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -13,6 +16,7 @@ export const useUserRegistForm = () => {
     email?: string[];
     password?: string[];
     passwordConfirm?: string[];
+    _form?: string[];
   }>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -20,7 +24,7 @@ export const useUserRegistForm = () => {
     setIsSubmitting(true);
     setErrors({});
 
-    const result = await saveFormData({
+    const result = await registerUser({
       userName,
       email,
       password,
@@ -30,7 +34,10 @@ export const useUserRegistForm = () => {
     if (!result.success && result.errors) {
       setErrors(result.errors);
       setIsSubmitting(false);
+      return;
     }
+
+    router.push(`${PATH_REGISTER}/completion`);
   };
 
   return {
