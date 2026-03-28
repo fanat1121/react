@@ -49,6 +49,20 @@ func (s *CommandService) CreateUser(req *user.CreateUserRequest) (*user.UserResp
 	return newUser.ToResponse(), nil
 }
 
+// LoginUser ログイン認証
+func (s *CommandService) LoginUser(req *user.LoginRequest) (*user.UserResponse, error) {
+	foundUser, err := s.repo.GetByLoginID(req.UserLoginID)
+	if err != nil {
+		return nil, errors.New("invalid credentials")
+	}
+
+	if err := bcrypt.CompareHashAndPassword([]byte(foundUser.PasswordHash), []byte(req.Password)); err != nil {
+		return nil, errors.New("invalid credentials")
+	}
+
+	return foundUser.ToResponse(), nil
+}
+
 // DeleteUser ユーザーを削除（論理削除）
 func (s *CommandService) DeleteUser(id int) error {
 	// ユーザーの存在確認

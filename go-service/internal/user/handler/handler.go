@@ -117,6 +117,25 @@ func (h *Handler) SearchUsers(w http.ResponseWriter, r *http.Request) {
 	response.BadRequest(w, "Search criteria required (email or user_login_id)")
 }
 
+// Login ログイン認証
+// POST /api/users/login
+func (h *Handler) Login(w http.ResponseWriter, r *http.Request) {
+	var req user.LoginRequest
+
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		response.BadRequest(w, "Invalid request body")
+		return
+	}
+
+	loggedInUser, err := h.commandService.LoginUser(&req)
+	if err != nil {
+		response.Unauthorized(w, "Invalid credentials")
+		return
+	}
+
+	response.Success(w, loggedInUser)
+}
+
 // DeleteUser ユーザー削除（論理削除）
 // DELETE /api/users/{id}
 func (h *Handler) DeleteUser(w http.ResponseWriter, r *http.Request) {
@@ -141,6 +160,9 @@ func (h *Handler) DeleteUser(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) RegisterRoutes(router *mux.Router) {
 	// 登録
 	router.HandleFunc("/api/users/register", h.CreateUser).Methods("POST")
+
+	// ログイン
+	router.HandleFunc("/api/users/login", h.Login).Methods("POST")
 	
 	// 取得（クエリパラメータで条件指定）
 	router.HandleFunc("/api/users", h.GetUsers).Methods("GET")

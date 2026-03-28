@@ -70,3 +70,8 @@ func InternalServerError(w http.ResponseWriter, message string) {
 func Conflict(w http.ResponseWriter, message string) {
 	Error(w, http.StatusConflict, "CONFLICT", message)
 }
+
+// Unauthorized 401エラーを返す
+func Unauthorized(w http.ResponseWriter, message string) {
+	Error(w, http.StatusUnauthorized, "UNAUTHORIZED", message)
+}

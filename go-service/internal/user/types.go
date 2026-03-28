@@ -26,6 +26,12 @@ type CreateUserRequest struct {
 	Password    string `json:"password" validate:"required,min=6,max=100"`
 }
 
+// LoginRequest ログインリクエスト
+type LoginRequest struct {
+	UserLoginID string `json:"user_login_id" validate:"required"`
+	Password    string `json:"password" validate:"required"`
+}
+
 // SearchUserRequest ユーザー検索リクエスト
 type SearchUserRequest struct {
 	Email       string `json:"email,omitempty"`
