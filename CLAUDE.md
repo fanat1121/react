@@ -5,7 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Implementation Workflow
 
 実装タスクは **2つのサブエージェントを並列で起動** して進める:
-- **Agent 1**: フロントエンド (`boldpracttice/`) 担当
+- **Agent 1**: フロントエンド (`nextjs/`) 担当
 - **Agent 2**: バックエンド (`go-service/`) 担当
 
 インターフェース（API エンドポイントの型・レスポンス形式）は着手前に合意してから並列実装する。
@@ -14,11 +14,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a full-stack monorepo with two main services:
 
-- `boldpracttice/` — Next.js 15 frontend (App Router, TypeScript, TailwindCSS)
+- `nextjs/` — Next.js 15 frontend (App Router, TypeScript, TailwindCSS)
 - `go-service/` — Go microservice backend (Gorilla/mux, MySQL, Redis)
 - `docker-compose.yml` — Orchestrates MySQL 8.0, Go service, and Redis 7
 
-## Frontend Commands (run inside `boldpracttice/`)
+## Frontend Commands (run inside `nextjs/`)
 
 ```bash
 npm run dev          # Start dev server with Turbopack (port 3000)
@@ -48,9 +48,9 @@ docker-compose up    # Start MySQL + Redis + Go service
 
 ## Frontend Architecture
 
-**App Router pages** in `boldpracttice/app/`: home, UserRegist, block (Tetris), hooks-demo, javascript-tips, python-bugs.
+**App Router pages** in `nextjs/app/`: home, UserRegist, block (Tetris), hooks-demo, javascript-tips, python-bugs.
 
-**Component organization** in `boldpracttice/components/`:
+**Component organization** in `nextjs/components/`:
 - `common/ui/` — Base UI atoms (Button, Input)
 - `common/Header|Footer/` — Layout shells
 - Feature-specific directories (quote, tips, tetris, UserRegist)
@@ -58,7 +58,7 @@ docker-compose up    # Start MySQL + Redis + Go service
 **Key patterns:**
 - Container/View separation (e.g., `QuoteViewContainer` → `QuoteView`)
 - Multi-step forms: each step gets its own subdirectory (input → confirm → completion), with Zod schemas in `schemas/` and state managed by a custom hook in `hooks/`
-- Path alias `@/*` maps to `boldpracttice/`
+- Path alias `@/*` maps to `nextjs/`
 - Use `clsx` when applying multiple class names conditionally
 - CSS spacing must use multiples of 8px; use spacing variables from `@/styles/variables.scss` (`$spacing_1`〜`$spacing_6`)
 - Avoid magic numbers and magic strings; declare constants locally (`const` in the same file) for single-use values, or place them in the appropriate `const/` directory for shared use

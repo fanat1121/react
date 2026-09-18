@@ -9,7 +9,7 @@
 **References**
 - @CLAUDE.md — リポジトリ構造・アーキテクチャ全体
 - @go-service/internal/ — 既存バックエンドドメイン構造
-- @boldpracttice/app/ — 既存フロントエンドページ構造
+- @nextjs/app/ — 既存フロントエンドページ構造
 
 **チェックリスト**
 - [ ] 実装するAPIエンドポイントのパス・メソッド・request/responseの型を合意する
@@ -21,7 +21,7 @@
 
 **References**
 - @CLAUDE.md#implementation-workflow — サブエージェント並列起動の指針
-- @boldpracttice/components/ — 既存コンポーネント構造（フロントエンドAgent参照）
+- @nextjs/components/ — 既存コンポーネント構造（フロントエンドAgent参照）
 - @go-service/pkg/ — 共有パッケージ（バックエンドAgent参照）
 - @go-service/docs/api/README.md — APIエンドポイント仕様書（バックエンドAgentが変更時に更新）
 
@@ -36,7 +36,7 @@
 ## Phase 3: テスト
 
 **References**
-- @boldpracttice/vitest.config.ts — フロントエンドテスト設定
+- @nextjs/vitest.config.ts — フロントエンドテスト設定
 - @go-service/ — バックエンドテスト（`go test ./...`）
 
 **チェックリスト**
