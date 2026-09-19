@@ -51,6 +51,7 @@ http://localhost:8080
 | GET | `/api/users` | ユーザー取得（全件 / user_code指定） | [users/get.md](./users/get.md) |
 | POST | `/api/users/search` | ユーザー検索（email / user_login_id） | [users/search.md](./users/search.md) |
 | DELETE | `/api/users/{id}` | ユーザー削除（論理削除） | [users/delete.md](./users/delete.md) |
+| POST/GET/DELETE | `/api/equipments`, `/api/equipment-categories`, `/api/states`, `/api/tricks` | 技マスタ管理（道具/カテゴリ/状態/技） | [tricks/README.md](./tricks/README.md) |
 
 ## データモデル
 

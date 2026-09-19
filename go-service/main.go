@@ -2,6 +2,9 @@ package main
 
 import (
 	"go-service/internal/health"
+	"go-service/internal/trick"
+	trickHandler "go-service/internal/trick/handler"
+	trickService "go-service/internal/trick/service"
 	"go-service/internal/user"
 	"go-service/internal/user/handler"
 	"go-service/internal/user/service"
@@ -28,6 +31,7 @@ func main() {
 
 	// 各ドメインの初期化とルート登録
 	setupUserDomain(router, db)
+	setupTrickDomain(router, db)
 	setupHealthDomain(router)
 
 	// CORS設定
@@ -70,6 +74,24 @@ func setupUserDomain(router *mux.Router, db *database.DB) {
 	
 	userHandler := handler.NewHandler(commandService, queryService)
 	userHandler.RegisterRoutes(router)
+}
+
+// setupTrickDomain 技マスタドメインのセットアップ
+func setupTrickDomain(router *mux.Router, db *database.DB) {
+	equipmentRepo := trick.NewMySQLEquipmentRepository(db)
+	categoryRepo := trick.NewMySQLEquipmentCategoryRepository(db)
+	stateRepo := trick.NewMySQLStateRepository(db)
+	trickRepo := trick.NewMySQLTrickRepository(db)
+
+	equipmentHandler := trickHandler.NewEquipmentHandler(trickService.NewEquipmentService(equipmentRepo))
+	categoryHandler := trickHandler.NewCategoryHandler(trickService.NewCategoryService(categoryRepo))
+	stateHandler := trickHandler.NewStateHandler(trickService.NewStateService(stateRepo))
+	trickDomainHandler := trickHandler.NewTrickHandler(trickService.NewTrickService(equipmentRepo, categoryRepo, stateRepo, trickRepo))
+
+	equipmentHandler.RegisterRoutes(router)
+	categoryHandler.RegisterRoutes(router)
+	stateHandler.RegisterRoutes(router)
+	trickDomainHandler.RegisterRoutes(router)
 }
 
 // setupHealthDomain ヘルスチェックドメインのセットアップ
