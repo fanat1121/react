@@ -31,6 +31,18 @@
   border-radius: 8px;
 }
 
+.adjustmentRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: variables.$spacing_3;
+  margin-top: variables.$spacing_2;
+  padding: variables.$spacing_1;
+  background-color: #fff7ed;
+  border: 1px dashed #f0b429;
+  border-radius: 8px;
+}
+
 .junkRow {
   display: flex;
   justify-content: center;

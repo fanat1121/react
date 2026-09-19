@@ -8,6 +8,8 @@ import { INPUT_TYPES } from '@/components/common/ui/Input/const/inputVariants';
 import type { UseCounterResult } from '@/hooks/useCounter';
 import { CARDS } from './const/cards';
 import { COLORLESS_CARDS } from './const/colorlessCards';
+import { ANCIENT_CARDS } from './const/ancientCards';
+import { CRESCENT_SPEAR } from './const/crescentSpear';
 import type { CardType } from './const/types';
 import type { CardCounts, DeckBuildSummary } from './hooks/useDeckBuild';
 import { CardRow } from './CardRow';
@@ -24,10 +26,13 @@ const CARD_TYPES: CardType[] = ['attack', 'skill', 'power'];
 export type DeckBuildProps = {
   counts: CardCounts;
   colorlessCounts: CardCounts;
+  ancientCounts: CardCounts;
   junkCount: number;
   irregularAttack: UseCounterResult;
   irregularSkill: UseCounterResult;
   irregularPower: UseCounterResult;
+  totalPowerAdjustment: UseCounterResult;
+  totalBlockAdjustment: UseCounterResult;
   summary: DeckBuildSummary;
   searchQuery: string;
   onSearchQueryChange: (query: string) => void;
@@ -39,6 +44,10 @@ export type DeckBuildProps = {
   onDecrementColorlessBase: (cardId: string) => void;
   onIncrementColorlessPlus: (cardId: string) => void;
   onDecrementColorlessPlus: (cardId: string) => void;
+  onIncrementAncientBase: (cardId: string) => void;
+  onDecrementAncientBase: (cardId: string) => void;
+  onIncrementAncientPlus: (cardId: string) => void;
+  onDecrementAncientPlus: (cardId: string) => void;
   onIncrementJunk: () => void;
   onDecrementJunk: () => void;
   onResetAll: () => void;
@@ -51,10 +60,13 @@ export type DeckBuildProps = {
 export const DeckBuild: React.FC<DeckBuildProps> = ({
   counts,
   colorlessCounts,
+  ancientCounts,
   junkCount,
   irregularAttack,
   irregularSkill,
   irregularPower,
+  totalPowerAdjustment,
+  totalBlockAdjustment,
   summary,
   searchQuery,
   onSearchQueryChange,
@@ -66,6 +78,10 @@ export const DeckBuild: React.FC<DeckBuildProps> = ({
   onDecrementColorlessBase,
   onIncrementColorlessPlus,
   onDecrementColorlessPlus,
+  onIncrementAncientBase,
+  onDecrementAncientBase,
+  onIncrementAncientPlus,
+  onDecrementAncientPlus,
   onIncrementJunk,
   onDecrementJunk,
   onResetAll,
@@ -75,6 +91,7 @@ export const DeckBuild: React.FC<DeckBuildProps> = ({
     normalizedQuery === '' || card.name.includes(normalizedQuery) || card.effectBase.includes(normalizedQuery);
   const filteredCards = CARDS.filter(matchesQuery);
   const filteredColorlessCards = COLORLESS_CARDS.filter(matchesQuery);
+  const filteredAncientCards = ANCIENT_CARDS.filter(matchesQuery);
 
   return (
     <div className={styles.container}>
@@ -100,16 +117,44 @@ export const DeckBuild: React.FC<DeckBuildProps> = ({
         <CountDisplay label="ブロック枚数" value={summary.blockSkillCount} unit="枚" />
         <CountDisplay label="スキル枚数（非ブロック）" value={summary.nonBlockSkillCount} unit="枚" />
         <CountDisplay label="パワー枚数" value={summary.countByType.power} unit="枚" />
-        <CountDisplay label="総威力" value={summary.totalPower} />
-        <CountDisplay label="総ブロック" value={summary.totalBlock} />
         <CountDisplay label="総スター消費" value={summary.totalStarCost} unit="✦" />
         <CountDisplay label="総スター回収" value={summary.totalStarGain} unit="✦" />
+        <CountDisplay label="✦コストカード枚数" value={summary.starCostCardCount} unit="枚" />
+        <CountDisplay label="✦回収カード枚数" value={summary.starGainCardCount} unit="枚" />
+        <CountDisplay label={CRESCENT_SPEAR.label} value={summary.crescentSpearPower} />
+        <CountDisplay label={CRESCENT_SPEAR.plusLabel} value={summary.crescentSpearPlusPower} />
         <CountDisplay label="平均ATK" value={Math.round(summary.averageAttackPower * 10) / 10} />
         <CountDisplay label="平均ブロック" value={Math.round(summary.averageBlock * 10) / 10} />
         <CountDisplay label="平均コスト" value={Math.round(summary.averageEnergyCost * 10) / 10} />
         <CountDisplay label="平均消費スター" value={Math.round(summary.averageStarCost * 10) / 10} unit="✦" />
         <CountDisplay label="平均回収スター" value={Math.round(summary.averageStarGain * 10) / 10} unit="✦" />
       </div>
+
+      <div className={styles.adjustmentRow}>
+        <CounterField
+          label="総威力"
+          value={summary.totalPower}
+          bigStep={10}
+          onIncrement={totalPowerAdjustment.increment}
+          onDecrement={totalPowerAdjustment.decrement}
+          onIncrementBy={totalPowerAdjustment.incrementBy}
+          onDecrementBy={totalPowerAdjustment.decrementBy}
+          onReset={totalPowerAdjustment.reset}
+        />
+        <CounterField
+          label="総ブロック"
+          value={summary.totalBlock}
+          bigStep={10}
+          onIncrement={totalBlockAdjustment.increment}
+          onDecrement={totalBlockAdjustment.decrement}
+          onIncrementBy={totalBlockAdjustment.incrementBy}
+          onDecrementBy={totalBlockAdjustment.decrementBy}
+          onReset={totalBlockAdjustment.reset}
+        />
+      </div>
+      <p className={styles.note}>
+        総威力・総ブロックはカードから自動集計した値に、エンチャント等のズレ分を+/-で上乗せ調整できるのです（リセットは調整分のみ0に戻すのです）。
+      </p>
 
       <div className={styles.junkRow}>
         <CounterField
@@ -197,6 +242,29 @@ export const DeckBuild: React.FC<DeckBuildProps> = ({
                   onDecrementBase={() => onDecrementColorlessBase(card.id)}
                   onIncrementPlus={() => onIncrementColorlessPlus(card.id)}
                   onDecrementPlus={() => onDecrementColorlessPlus(card.id)}
+                />
+              ))}
+          </div>
+        </section>
+      ))}
+
+      <h2 className={styles.subHeading}>エンシェント入手カード</h2>
+      {CARD_TYPES.filter((type) => filteredAncientCards.some((card) => card.type === type)).map((type) => (
+        <section key={`ancient-${type}`} className={styles.section}>
+          <h3 className={styles.sectionTitle}>{TYPE_LABELS[type]}</h3>
+          <div className={styles.list}>
+            {filteredAncientCards
+              .filter((card) => card.type === type)
+              .map((card) => (
+                <CardRow
+                  key={card.id}
+                  card={card}
+                  baseCount={ancientCounts[card.id].base}
+                  plusCount={ancientCounts[card.id].plus}
+                  onIncrementBase={() => onIncrementAncientBase(card.id)}
+                  onDecrementBase={() => onDecrementAncientBase(card.id)}
+                  onIncrementPlus={() => onIncrementAncientPlus(card.id)}
+                  onDecrementPlus={() => onDecrementAncientPlus(card.id)}
                 />
               ))}
           </div>
