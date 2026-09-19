@@ -1,13 +1,13 @@
 ---
 name: layering-frontend-components
-description: Use when creating or reviewing React/Next.js components under boldpracttice/ — deciding how to split a feature into Server/Client/UI layers, or choosing between `interface` and `type` for props.
+description: Use when creating or reviewing React/Next.js components under nextjs/ — deciding how to split a feature into Server/Client/UI layers, or choosing between `interface` and `type` for props.
 ---
 
 # Layering Frontend Components
 
 ## Overview
 
-`boldpracttice/` の各機能はContainer/Presentationalパターンを、Server/Client/UIの3層に落とし込んで実装するのです。すべての層が常に必要なわけではなく、機能に不要な層は省略するのです。
+`nextjs/` の各機能はContainer/Presentationalパターンを、Server/Client/UIの3層に落とし込んで実装するのです。すべての層が常に必要なわけではなく、機能に不要な層は省略するのです。
 
 ## 型定義: `interface` 禁止、`type` のみ使用
 
