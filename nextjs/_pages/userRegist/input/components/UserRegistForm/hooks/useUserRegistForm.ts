@@ -2,11 +2,13 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { registerUser } from '../actions/register';
 import { PATH_REGISTER } from '@/config/const/paths';
 
 export const useUserRegistForm = () => {
   const router = useRouter();
+  const { update } = useSession();
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -37,6 +39,7 @@ export const useUserRegistForm = () => {
       return;
     }
 
+    await update();
     router.push(`${PATH_REGISTER}/completion`);
   };
 
