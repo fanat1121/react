@@ -1,11 +1,14 @@
 'use server';
 
+import { cookies } from 'next/headers';
 import { userRegistSchema } from '@/_pages/userRegist/schemas/schema';
 import { UserRegistFormData } from '@/_pages/userRegist/types/UserRegistFormData';
+import { USER_REGIST_LOGIN_ID_COOKIE } from '@/_pages/userRegist/const/cookies';
+
+const GO_API_URL = process.env.GO_API_URL ?? 'http://localhost:8080';
 
 export type RegisterResult = {
   success: boolean;
-  userLoginId?: string;
   errors?: {
     userName?: string[];
     email?: string[];
@@ -26,7 +29,7 @@ export async function registerUser(formData: UserRegistFormData): Promise<Regist
   }
 
   try {
-    const response = await fetch('http://localhost:8080/api/users/register', {
+    const response = await fetch(`${GO_API_URL}/api/users/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -47,7 +50,16 @@ export async function registerUser(formData: UserRegistFormData): Promise<Regist
       };
     }
 
-    return { success: true, userLoginId: json.data.user_login_id };
+    const cookieStore = await cookies();
+    cookieStore.set(USER_REGIST_LOGIN_ID_COOKIE, json.data.user_login_id, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 60,
+      path: '/UserRegist/completion',
+    });
+
+    return { success: true };
   } catch {
     return {
       success: false,

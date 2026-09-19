@@ -2,6 +2,7 @@ package user
 
 import (
 	"errors"
+	"fmt"
 	"sync"
 	"time"
 )
@@ -53,6 +54,7 @@ func (r *InMemoryRepository) Create(user *User) error {
 
 	user.ID = r.nextID
 	user.UserCode = r.nextID
+	user.UserLoginID = fmt.Sprintf("user%06d", r.nextID)
 	user.RegisteredAt = now
 	user.RegistrationSource = "web"
 	user.UpdateCount = 0

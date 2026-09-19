@@ -37,7 +37,7 @@ export const useUserRegistForm = () => {
       return;
     }
 
-    router.push(`${PATH_REGISTER}/completion?loginId=${result.userLoginId}`);
+    router.push(`${PATH_REGISTER}/completion`);
   };
 
   return {
