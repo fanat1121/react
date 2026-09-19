@@ -11,7 +11,7 @@ import {
   CARD_UNIT,
   BIG_STEP,
 } from './const/deckTrackerLabels';
-import { CRESCENT_SPEAR, calculateCrescentSpearPower } from './const/crescentSpear';
+import { CRESCENT_SPEAR, calculateCrescentSpearPower } from '@/lib/cards/crescentSpear';
 import styles from './DeckTracker.module.scss';
 
 type CardCountCounters = {

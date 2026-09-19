@@ -36,6 +36,31 @@ type ButtonAsLink = BaseButtonProps & { href: string };
 
 既存ファイル（Button.tsx / Input.tsx など）は `interface` のまま残っているが、新規作成・大幅改修時は `type` へ揃えるのです。既存コードを触っていないだけで一括置換する必要はないのです。
 
+## エクスポート: `export default` 禁止、`export { default as X }` 禁止
+
+コンポーネント・フック・定数はすべて named export で書くのです。`export default` および re-export 時の `as` によるリネームは禁止なのです。
+
+```ts
+// ❌ NG
+const QuoteView: React.FC<Props> = (props) => { ... };
+export default QuoteView;
+
+// index.ts
+export { default as QuoteView } from './QuoteView';
+```
+
+```ts
+// ✅ OK
+export const QuoteView: React.FC<Props> = (props) => { ... };
+
+// index.ts
+export { QuoteView } from './QuoteView';
+```
+
+理由: `export default` は import 側で任意の名前を付けられてしまい、`as` によるリネームは元の宣言名とバレル経由の名前がずれる温床になるのです。named export に統一することで、grep一発でどこからでも同じ名前を追えるのです。
+
+**例外**: Storybook の CSF 形式が `export default meta` を要求するため、`*.stories.tsx` と `*.mdx` はこの禁止の対象外なのです。
+
 ## 3層構成
 
 | 層 | 役割 | ディレクティブ | 配置先の例 |

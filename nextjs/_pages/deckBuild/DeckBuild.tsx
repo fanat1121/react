@@ -9,7 +9,7 @@ import type { UseCounterResult } from '@/hooks/useCounter';
 import { CARDS } from './const/cards';
 import { COLORLESS_CARDS } from './const/colorlessCards';
 import { ANCIENT_CARDS } from './const/ancientCards';
-import { CRESCENT_SPEAR } from './const/crescentSpear';
+import { CRESCENT_SPEAR } from '@/lib/cards/crescentSpear';
 import type { CardType } from './const/types';
 import type { CardCounts, DeckBuildSummary } from './hooks/useDeckBuild';
 import { CardRow } from './CardRow';

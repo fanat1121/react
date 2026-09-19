@@ -1,0 +1,72 @@
+import { Canvas, Meta, Story } from '@storybook/blocks';
+import * as UserRegistFormStories from './UserRegistForm.stories';
+
+<Meta of={UserRegistFormStories} />
+
+# UserRegistForm
+
+ユーザー登録フォームコンポーネント。ユーザー名、メールアドレス、パスワード、パスワード確認の入力フィールドと登録ボタンを提供します。
+
+## 概要
+
+このコンポーネントは、ユーザー登録に必要な情報を入力するためのフォームです。
+各入力フィールドの状態管理と送信処理を内部で完結させています。
+
+## 特徴
+
+- **UI層**: 状態を持たず、propsで受け取った値とハンドラのみで描画
+- **状態管理**: `UserRegistFormContainer`（Client Component）が`useUserRegistForm`で保持し、propsとして渡す
+- **送信処理**: `onSubmit` propに委譲
+
+## 使用例
+
+<Canvas of={UserRegistFormStories.Default} />
+
+## Props
+
+| Prop | 型 | 説明 |
+|---|---|---|
+| `userName` | `string` | ユーザー名の入力値 |
+| `onUserNameChange` | `(value: string) => void` | ユーザー名変更ハンドラ |
+| `email` | `string` | メールアドレスの入力値 |
+| `onEmailChange` | `(value: string) => void` | メールアドレス変更ハンドラ |
+| `password` | `string` | パスワードの入力値 |
+| `onPasswordChange` | `(value: string) => void` | パスワード変更ハンドラ |
+| `passwordConfirm` | `string` | パスワード確認の入力値 |
+| `onPasswordConfirmChange` | `(value: string) => void` | パスワード確認変更ハンドラ |
+| `errors` | `UserRegistErrors` | フィールドごとのバリデーションエラー |
+| `isSubmitting` | `boolean` | 送信中フラグ |
+| `onSubmit` | `() => void` | 送信ハンドラ |
+
+## フィールド
+
+### ユーザー名
+- ラベル: "ユーザー名"
+- タイプ: text
+
+### メールアドレス
+- ラベル: "メールアドレス"
+- タイプ: email
+
+### パスワード
+- ラベル: "パスワード"
+- タイプ: password
+
+### パスワード確認
+- ラベル: "パスワード確認"
+- タイプ: password
+
+## 使用方法
+
+```tsx
+import { UserRegistFormContainer } from '@/_pages/userRegist/input/components/UserRegistForm/UserRegistFormContainer';
+
+export default function Page() {
+  return <UserRegistFormContainer />;
+}
+```
+
+## 注意事項
+
+- 状態を持つのは`UserRegistFormContainer`側です。`UserRegistForm`単体はpropsのみで完結する純粋なUI層です
+- 実際のサーバーアクション呼び出しは`useUserRegistForm`内の`registerUser`で行われます

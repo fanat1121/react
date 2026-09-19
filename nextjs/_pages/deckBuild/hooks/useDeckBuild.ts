@@ -6,7 +6,7 @@ import { readLocalStorageJSON, writeLocalStorageJSON } from '@/utils/localStorag
 import { CARDS } from '../const/cards';
 import { COLORLESS_CARDS } from '../const/colorlessCards';
 import { ANCIENT_CARDS } from '../const/ancientCards';
-import { CRESCENT_SPEAR, calculateCrescentSpearPower } from '../const/crescentSpear';
+import { CRESCENT_SPEAR, calculateCrescentSpearPower } from '@/lib/cards/crescentSpear';
 import type { CardData, CardType } from '../const/types';
 
 export type CardCount = {
