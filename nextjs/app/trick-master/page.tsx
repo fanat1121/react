@@ -23,7 +23,7 @@ const TrickMasterPage: React.FC = async () => {
 
   return (
     <div className="p-32">
-      <h1 className="mb-24">技マスタ登録</h1>
+      <h1 className="mb-24">マスタ登録</h1>
       <TrickMaster
         equipmentOptions={equipmentOptions}
         categoryOptions={categoryOptions}
