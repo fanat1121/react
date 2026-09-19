@@ -1,0 +1,64 @@
+@use '@/styles/variables';
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: variables.$spacing_2;
+  padding: variables.$spacing_2 0;
+  border-bottom: 1px solid #e9ecef;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.info {
+  flex: 1 1 260px;
+  min-width: 0;
+}
+
+.titleLine {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: variables.$spacing_1;
+}
+
+.name {
+  font-weight: 700;
+}
+
+.cost {
+  font-size: 0.8rem;
+  color: #555;
+  padding: 0 variables.$spacing_1;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.rarity {
+  font-size: 0.75rem;
+  color: #888;
+}
+
+.specialTag {
+  font-size: 0.7rem;
+  color: #b45309;
+  background-color: #fef3c7;
+  border-radius: 4px;
+  padding: 0 variables.$spacing_1;
+}
+
+.effect {
+  margin: variables.$spacing_default * 0.5 0 0;
+  font-size: 0.8rem;
+  color: #444;
+}
+
+.counters {
+  display: flex;
+  gap: variables.$spacing_2;
+  flex: 0 0 auto;
+}

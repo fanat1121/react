@@ -45,6 +45,9 @@ const Home = () => {
                 <li>
                   <a href="/deck-tracker">スレスパ2 リージェントデッキトラッカー</a>
                 </li>
+                <li>
+                  <a href="/deck-build">スレスパ2 リージェントデッキビルド</a>
+                </li>
               </ul>
             </div>
           </div>

@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(go build:*)"
+      "Bash(go build:*)",
+      "Bash(cat /workspace/.claude/settings.json 2>/dev/null || echo \"not found\"; cat ~/.claude/settings.json 2>/dev/null || echo \"not found\")",
+      "Read(//home/node/.claude/**)"
     ]
   }
 }

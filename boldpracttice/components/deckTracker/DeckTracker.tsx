@@ -21,6 +21,8 @@ type CardCountCounters = {
   power: UseCounterResult;
   starCost: UseCounterResult;
   starGain: UseCounterResult;
+  crescentSpearCount: UseCounterResult;
+  crescentSpearPlusCount: UseCounterResult;
 };
 
 type TotalAmountCounters = {
@@ -45,9 +47,24 @@ export const DeckTracker: React.FC<DeckTrackerProps> = ({
   totalAmountCounters,
   onResetAll,
 }) => {
-  const starConsumedCount = cardCountCounters.starCost.value;
-  const crescentSpearPower = calculateCrescentSpearPower(starConsumedCount, CRESCENT_SPEAR.baseMultiplier);
-  const crescentSpearPlusPower = calculateCrescentSpearPower(starConsumedCount, CRESCENT_SPEAR.plusMultiplier);
+  const crescentSpearTotalCount =
+    cardCountCounters.crescentSpearCount.value + cardCountCounters.crescentSpearPlusCount.value;
+  const attackCountWithCrescentSpear = cardCountCounters.attack.value + crescentSpearTotalCount;
+  const starConsumedCountWithCrescentSpear = cardCountCounters.starCost.value + crescentSpearTotalCount;
+
+  const crescentSpearPower = calculateCrescentSpearPower(
+    starConsumedCountWithCrescentSpear,
+    CRESCENT_SPEAR.baseMultiplier,
+  );
+  const crescentSpearPlusPower = calculateCrescentSpearPower(
+    starConsumedCountWithCrescentSpear,
+    CRESCENT_SPEAR.plusMultiplier,
+  );
+
+  const crescentSpearAttackContribution =
+    cardCountCounters.crescentSpearCount.value * crescentSpearPower +
+    cardCountCounters.crescentSpearPlusCount.value * crescentSpearPlusPower;
+  const attackTotalWithCrescentSpear = totalAmountCounters.attackTotal.value + crescentSpearAttackContribution;
 
   return (
     <div className={styles.container}>
@@ -63,7 +80,7 @@ export const DeckTracker: React.FC<DeckTrackerProps> = ({
         <div className={styles.list}>
           <CounterField
             label={DECK_TRACKER_LABELS.attack}
-            value={cardCountCounters.attack.value}
+            value={attackCountWithCrescentSpear}
             unit={CARD_UNIT}
             accentColor={DECK_TRACKER_COLORS.attack}
             onIncrement={cardCountCounters.attack.increment}
@@ -99,7 +116,7 @@ export const DeckTracker: React.FC<DeckTrackerProps> = ({
           />
           <CounterField
             label={DECK_TRACKER_LABELS.starCost}
-            value={cardCountCounters.starCost.value}
+            value={starConsumedCountWithCrescentSpear}
             unit={CARD_UNIT}
             accentColor={DECK_TRACKER_COLORS.starCost}
             onIncrement={cardCountCounters.starCost.increment}
@@ -115,6 +132,24 @@ export const DeckTracker: React.FC<DeckTrackerProps> = ({
             onDecrement={cardCountCounters.starGain.decrement}
             onReset={cardCountCounters.starGain.reset}
           />
+          <CounterField
+            label={DECK_TRACKER_LABELS.crescentSpearCount}
+            value={cardCountCounters.crescentSpearCount.value}
+            unit={CARD_UNIT}
+            accentColor={DECK_TRACKER_COLORS.crescentSpearCount}
+            onIncrement={cardCountCounters.crescentSpearCount.increment}
+            onDecrement={cardCountCounters.crescentSpearCount.decrement}
+            onReset={cardCountCounters.crescentSpearCount.reset}
+          />
+          <CounterField
+            label={DECK_TRACKER_LABELS.crescentSpearPlusCount}
+            value={cardCountCounters.crescentSpearPlusCount.value}
+            unit={CARD_UNIT}
+            accentColor={DECK_TRACKER_COLORS.crescentSpearPlusCount}
+            onIncrement={cardCountCounters.crescentSpearPlusCount.increment}
+            onDecrement={cardCountCounters.crescentSpearPlusCount.decrement}
+            onReset={cardCountCounters.crescentSpearPlusCount.reset}
+          />
         </div>
       </section>
 
@@ -123,7 +158,7 @@ export const DeckTracker: React.FC<DeckTrackerProps> = ({
         <div className={styles.list}>
           <CounterField
             label={DECK_TRACKER_LABELS.attackTotal}
-            value={totalAmountCounters.attackTotal.value}
+            value={attackTotalWithCrescentSpear}
             accentColor={DECK_TRACKER_COLORS.attackTotal}
             bigStep={BIG_STEP}
             onIncrement={totalAmountCounters.attackTotal.increment}

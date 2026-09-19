@@ -1,0 +1,87 @@
+@use '@/styles/variables';
+
+.container {
+  max-width: 900px;
+  margin: variables.$spacing_3 auto;
+  padding: variables.$spacing_3;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+.searchInput {
+  width: 100%;
+  margin-bottom: variables.$spacing_2;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: variables.$spacing_2;
+}
+
+.summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: variables.$spacing_3;
+  padding: variables.$spacing_2;
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+}
+
+.adjustmentRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: variables.$spacing_3;
+  margin-top: variables.$spacing_2;
+  padding: variables.$spacing_1;
+  background-color: #fff7ed;
+  border: 1px dashed #f0b429;
+  border-radius: 8px;
+}
+
+.junkRow {
+  display: flex;
+  justify-content: center;
+  margin-top: variables.$spacing_2;
+  padding: variables.$spacing_1;
+  background-color: #f8f9fa;
+  border: 1px dashed #ccc;
+  border-radius: 8px;
+}
+
+.note {
+  margin: variables.$spacing_1 0 0;
+  font-size: 0.75rem;
+  color: #888;
+}
+
+.subHeading {
+  margin-top: variables.$spacing_4;
+  padding-top: variables.$spacing_2;
+  border-top: 2px solid #ddd;
+}
+
+.section {
+  margin-top: variables.$spacing_3;
+}
+
+.sectionTitle {
+  margin-bottom: variables.$spacing_1;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  padding: variables.$spacing_2;
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  max-height: 600px;
+  overflow-y: auto;
+}

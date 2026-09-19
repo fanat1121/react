@@ -1,4 +1,5 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { readLocalStorageJSON, writeLocalStorageJSON } from '@/utils/localStorage';
 
 type UseCounterOptions = {
   /** 初期値・リセット時に戻る値 */
@@ -7,6 +8,8 @@ type UseCounterOptions = {
   min?: number;
   /** increment/decrement時の増減幅 */
   step?: number;
+  /** 指定すると値をlocalStorageに保存し、次回マウント時に復元する */
+  persistKey?: string;
 };
 
 export type UseCounterResult = {
@@ -24,10 +27,26 @@ export type UseCounterResult = {
 /**
  * 増減・個別リセットのみを扱う汎用カウンターフック。
  * ドメイン知識（アタック/スキル等）は持たず、呼び出し側が用途を決める。
+ * persistKeyを指定するとlocalStorageに値を保存し、次回マウント時に復元する。
+ * SSRとのHydration不整合を避けるため、初回レンダリングはinitialValueで揃え、
+ * マウント後のuseEffectでlocalStorageの値を反映する。
  */
 export const useCounter = (options: UseCounterOptions = {}): UseCounterResult => {
-  const { initialValue = 0, min = 0, step = 1 } = options;
+  const { initialValue = 0, min = 0, step = 1, persistKey } = options;
   const [value, setValue] = useState(initialValue);
+  const isFirstEffect = useRef(true);
+
+  useEffect(() => {
+    if (!persistKey) return;
+    if (isFirstEffect.current) {
+      isFirstEffect.current = false;
+      const stored = readLocalStorageJSON(persistKey, initialValue);
+      if (stored !== initialValue) setValue(stored);
+      return;
+    }
+    writeLocalStorageJSON(persistKey, value);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [persistKey, value]);
 
   const increment = useCallback(() => {
     setValue((prev) => prev + step);

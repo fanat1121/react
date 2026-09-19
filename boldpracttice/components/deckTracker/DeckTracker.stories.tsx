@@ -31,6 +31,8 @@ export const Default: Story = {
       power: noopCounter(0),
       starCost: noopCounter(1),
       starGain: noopCounter(1),
+      crescentSpearCount: noopCounter(1),
+      crescentSpearPlusCount: noopCounter(0),
     },
     totalAmountCounters: {
       attackTotal: noopCounter(32),
@@ -51,6 +53,8 @@ export const AllZero: Story = {
       power: noopCounter(0),
       starCost: noopCounter(0),
       starGain: noopCounter(0),
+      crescentSpearCount: noopCounter(0),
+      crescentSpearPlusCount: noopCounter(0),
     },
     totalAmountCounters: {
       attackTotal: noopCounter(0),
