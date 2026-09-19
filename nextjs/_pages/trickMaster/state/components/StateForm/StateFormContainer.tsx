@@ -16,6 +16,8 @@ export const StateFormContainer: React.FC<StateFormContainerProps> = ({ equipmen
     setName,
     description,
     setDescription,
+    mediaUrl,
+    setMediaUrl,
     errors,
     isSubmitting,
     isSuccess,
@@ -31,6 +33,8 @@ export const StateFormContainer: React.FC<StateFormContainerProps> = ({ equipmen
       onNameChange={setName}
       description={description}
       onDescriptionChange={setDescription}
+      mediaUrl={mediaUrl}
+      onMediaUrlChange={setMediaUrl}
       errors={errors}
       isSubmitting={isSubmitting}
       isSuccess={isSuccess}

@@ -42,7 +42,7 @@ func (r *MySQLStateRepository) Create(state *State) error {
 	}
 
 	now := time.Now()
-	result, err := r.db.Exec(r.query.Insert(), state.EquipmentID, state.Name, state.Description, now, now)
+	result, err := r.db.Exec(r.query.Insert(), state.EquipmentID, state.Name, state.Description, state.MediaURL, now, now)
 	if err != nil {
 		return err
 	}
@@ -62,7 +62,7 @@ func (r *MySQLStateRepository) Create(state *State) error {
 // GetByID IDで状態を取得
 func (r *MySQLStateRepository) GetByID(id int) (*State, error) {
 	s := &State{}
-	err := r.db.QueryRow(r.query.SelectByID(), id).Scan(&s.ID, &s.EquipmentID, &s.Name, &s.Description, &s.IsInvalid, &s.CreatedAt, &s.UpdatedAt)
+	err := r.db.QueryRow(r.query.SelectByID(), id).Scan(&s.ID, &s.EquipmentID, &s.Name, &s.Description, &s.MediaURL, &s.IsInvalid, &s.CreatedAt, &s.UpdatedAt)
 	if err == sql.ErrNoRows {
 		return nil, errors.New("state not found")
 	}
@@ -83,7 +83,7 @@ func (r *MySQLStateRepository) GetAll() ([]*State, error) {
 	states := make([]*State, 0)
 	for rows.Next() {
 		s := &State{}
-		if err := rows.Scan(&s.ID, &s.EquipmentID, &s.Name, &s.Description, &s.IsInvalid, &s.CreatedAt, &s.UpdatedAt); err != nil {
+		if err := rows.Scan(&s.ID, &s.EquipmentID, &s.Name, &s.Description, &s.MediaURL, &s.IsInvalid, &s.CreatedAt, &s.UpdatedAt); err != nil {
 			return nil, err
 		}
 		states = append(states, s)

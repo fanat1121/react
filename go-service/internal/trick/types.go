@@ -65,6 +65,7 @@ type State struct {
 	EquipmentID int       `json:"equipment_id"`
 	Name        string    `json:"name"`
 	Description *string   `json:"description,omitempty"`
+	MediaURL    *string   `json:"media_url,omitempty"`
 	IsInvalid   bool      `json:"-"`
 	CreatedAt   time.Time `json:"created_at"`
 	UpdatedAt   time.Time `json:"updated_at"`
@@ -75,6 +76,7 @@ type CreateStateRequest struct {
 	EquipmentID int    `json:"equipment_id" validate:"required"`
 	Name        string `json:"name" validate:"required,min=1,max=64"`
 	Description string `json:"description,omitempty"`
+	MediaURL    string `json:"media_url,omitempty"`
 }
 
 // StateResponse 状態レスポンス
@@ -83,13 +85,22 @@ type StateResponse struct {
 	EquipmentID int       `json:"equipment_id"`
 	Name        string    `json:"name"`
 	Description *string   `json:"description,omitempty"`
+	MediaURL    *string   `json:"media_url,omitempty"`
 	CreatedAt   time.Time `json:"created_at"`
 	UpdatedAt   time.Time `json:"updated_at"`
 }
 
 // ToResponse StateをStateResponseに変換
 func (s *State) ToResponse() *StateResponse {
-	return &StateResponse{ID: s.ID, EquipmentID: s.EquipmentID, Name: s.Name, Description: s.Description, CreatedAt: s.CreatedAt, UpdatedAt: s.UpdatedAt}
+	return &StateResponse{
+		ID:          s.ID,
+		EquipmentID: s.EquipmentID,
+		Name:        s.Name,
+		Description: s.Description,
+		MediaURL:    s.MediaURL,
+		CreatedAt:   s.CreatedAt,
+		UpdatedAt:   s.UpdatedAt,
+	}
 }
 
 // Trick 技エンティティ

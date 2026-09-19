@@ -9,10 +9,12 @@ export const useStateForm = () => {
   const [equipmentId, setEquipmentId] = useState('');
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
+  const [mediaUrl, setMediaUrl] = useState('');
   const [errors, setErrors] = useState<{
     equipmentId?: string[];
     name?: string[];
     description?: string[];
+    mediaUrl?: string[];
     _form?: string[];
   }>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -23,7 +25,7 @@ export const useStateForm = () => {
     setErrors({});
     setIsSuccess(false);
 
-    const result = await registerState({ equipmentId: Number(equipmentId), name, description });
+    const result = await registerState({ equipmentId: Number(equipmentId), name, description, mediaUrl });
 
     if (!result.success && result.errors) {
       setErrors(result.errors);
@@ -35,6 +37,7 @@ export const useStateForm = () => {
     setIsSuccess(true);
     setName('');
     setDescription('');
+    setMediaUrl('');
     router.refresh();
   };
 
@@ -45,6 +48,8 @@ export const useStateForm = () => {
     setName,
     description,
     setDescription,
+    mediaUrl,
+    setMediaUrl,
     errors,
     isSubmitting,
     isSuccess,

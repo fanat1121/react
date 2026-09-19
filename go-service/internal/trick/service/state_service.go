@@ -27,7 +27,12 @@ func (s *StateService) CreateState(req *trick.CreateStateRequest) (*trick.StateR
 		description = &req.Description
 	}
 
-	state := &trick.State{EquipmentID: req.EquipmentID, Name: req.Name, Description: description}
+	var mediaURL *string
+	if req.MediaURL != "" {
+		mediaURL = &req.MediaURL
+	}
+
+	state := &trick.State{EquipmentID: req.EquipmentID, Name: req.Name, Description: description, MediaURL: mediaURL}
 	if err := s.repo.Create(state); err != nil {
 		return nil, err
 	}

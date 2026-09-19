@@ -8,6 +8,7 @@ CREATE TABLE state_master (
     equipment_id INT NOT NULL,
     name VARCHAR(64) NOT NULL,
     description TEXT NULL,
+    media_url VARCHAR(512) NULL,
     is_invalid TINYINT(1) NOT NULL DEFAULT 0,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -24,6 +25,7 @@ CREATE TABLE state_master (
 | `equipment_id` | INT | [equipment_master](./equipment_master.md) への外部キー |
 | `name` | VARCHAR(64) | 状態名（例: 「3ボール片手待機」） |
 | `description` | TEXT \| null | 補足説明 |
+| `media_url` | VARCHAR(512) \| null | 状態を表す画像/動画のURL（種別は問わない） |
 | `is_invalid` | TINYINT(1) | 論理削除フラグ |
 | `created_at` / `updated_at` | DATETIME | |
 

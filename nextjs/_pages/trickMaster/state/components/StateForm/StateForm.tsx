@@ -2,6 +2,7 @@ import { Input } from '@/components/common/ui/Input';
 import { Select } from '@/components/common/ui/Select';
 import { Button } from '@/components/common/ui/Button';
 import { Alert } from '@/components/common/ui/Alert';
+import { INPUT_TYPES } from '@/components/common/ui/Input/const/inputVariants';
 import clsx from 'clsx';
 import styles from './StateForm.module.scss';
 import type { EquipmentOption } from '../../../types';
@@ -14,7 +15,9 @@ type StateFormProps = {
   onNameChange: (value: string) => void;
   description: string;
   onDescriptionChange: (value: string) => void;
-  errors: { equipmentId?: string[]; name?: string[]; description?: string[]; _form?: string[] };
+  mediaUrl: string;
+  onMediaUrlChange: (value: string) => void;
+  errors: { equipmentId?: string[]; name?: string[]; description?: string[]; mediaUrl?: string[]; _form?: string[] };
   isSubmitting: boolean;
   isSuccess: boolean;
   onSubmit: () => void;
@@ -28,6 +31,8 @@ export const StateForm: React.FC<StateFormProps> = ({
   onNameChange,
   description,
   onDescriptionChange,
+  mediaUrl,
+  onMediaUrlChange,
   errors,
   isSubmitting,
   isSuccess,
@@ -61,6 +66,14 @@ export const StateForm: React.FC<StateFormProps> = ({
         value={description}
         onChange={(e) => onDescriptionChange(e.target.value)}
         error={errors.description?.[0]}
+      />
+
+      <Input
+        label="画像/動画URL"
+        value={mediaUrl}
+        onChange={(e) => onMediaUrlChange(e.target.value)}
+        error={errors.mediaUrl?.[0]}
+        inputType={INPUT_TYPES.URL}
       />
 
       {errors._form && <p className={clsx(styles.formError)}>{errors._form[0]}</p>}

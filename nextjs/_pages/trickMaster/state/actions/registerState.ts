@@ -11,6 +11,7 @@ export type RegisterStateResult = {
     equipmentId?: string[];
     name?: string[];
     description?: string[];
+    mediaUrl?: string[];
     _form?: string[];
   };
 };
@@ -33,6 +34,7 @@ export async function registerState(formData: StateFormData): Promise<RegisterSt
         equipment_id: result.data.equipmentId,
         name: result.data.name,
         description: result.data.description,
+        media_url: result.data.mediaUrl,
       }),
     });
 
