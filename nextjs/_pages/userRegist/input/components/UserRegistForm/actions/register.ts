@@ -1,6 +1,7 @@
 'use server';
 
 import { cookies } from 'next/headers';
+import { signIn } from '@/lib/auth';
 import { userRegistSchema } from '@/_pages/userRegist/schemas/schema';
 import { UserRegistFormData } from '@/_pages/userRegist/types/UserRegistFormData';
 import { USER_REGIST_LOGIN_ID_COOKIE } from '@/_pages/userRegist/const/cookies';
@@ -58,6 +59,18 @@ export async function registerUser(formData: UserRegistFormData): Promise<Regist
       maxAge: 60,
       path: '/UserRegist/completion',
     });
+
+    // 登録直後に自動でログインさせる。失敗しても登録自体は成功しているので、
+    // その場合は完了ページから手動でログインしてもらう。
+    try {
+      await signIn('credentials', {
+        userLoginId: json.data.user_login_id,
+        password: formData.password,
+        redirect: false,
+      });
+    } catch {
+      // 自動ログインの失敗は登録失敗として扱わない
+    }
 
     return { success: true };
   } catch {
