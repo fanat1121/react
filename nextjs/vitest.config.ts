@@ -34,6 +34,7 @@ export default defineConfig({
         test: {
           name: 'unit',
           include: ['**/__tests__/**/*.test.ts', '**/*.spec.ts'],
+          exclude: ['**/node_modules/**', 'e2e/**'],
           environment: 'node',
         },
       },
