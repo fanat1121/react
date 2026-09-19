@@ -16,17 +16,12 @@ import (
 
 func main() {
 	// データベース接続（環境変数から）
-	var db *database.DB
-	if os.Getenv("ENV") != "test" {
-		sqlDB, err := database.NewConnectionFromEnv()
-		if err != nil {
-			log.Printf("⚠️  Database connection failed: %v", err)
-			log.Println("📝 Using in-memory repository instead")
-		} else {
-			db = database.NewDB(sqlDB)
-			defer sqlDB.Close()
-		}
+	sqlDB, err := database.NewConnectionFromEnv()
+	if err != nil {
+		log.Fatalf("❌ Database connection failed: %v", err)
 	}
+	db := database.NewDB(sqlDB)
+	defer sqlDB.Close()
 
 	// ルーター設定
 	router := mux.NewRouter()
@@ -67,17 +62,8 @@ func main() {
 
 // setupUserDomain ユーザードメインのセットアップ
 func setupUserDomain(router *mux.Router, db *database.DB) {
-	var repo user.Repository
-	
-	// DB接続がある場合はMySQL、ない場合はインメモリ
-	if db != nil {
-		repo = user.NewMySQLRepository(db)
-		log.Println("✅ Using MySQL repository")
-	} else {
-		repo = user.NewInMemoryRepository()
-		log.Println("✅ Using in-memory repository")
-	}
-	
+	repo := user.NewMySQLRepository(db)
+
 	// 更新系と取得系のサービスを分離
 	commandService := service.NewCommandService(repo)
 	queryService := service.NewQueryService(repo)
