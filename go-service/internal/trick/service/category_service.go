@@ -41,6 +41,21 @@ func (s *CategoryService) GetAllCategories() ([]*trick.EquipmentCategoryResponse
 	return responses, nil
 }
 
+// GetCategoriesByEquipmentID 指定した道具に属するカテゴリのみを取得
+func (s *CategoryService) GetCategoriesByEquipmentID(equipmentID int) ([]*trick.EquipmentCategoryResponse, error) {
+	categories, err := s.repo.GetAll()
+	if err != nil {
+		return nil, err
+	}
+	responses := make([]*trick.EquipmentCategoryResponse, 0)
+	for _, c := range categories {
+		if c.EquipmentID == equipmentID {
+			responses = append(responses, c.ToResponse())
+		}
+	}
+	return responses, nil
+}
+
 // GetCategoryByID IDでカテゴリを取得
 func (s *CategoryService) GetCategoryByID(id int) (*trick.EquipmentCategoryResponse, error) {
 	c, err := s.repo.GetByID(id)

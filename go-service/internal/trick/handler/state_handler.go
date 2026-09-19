@@ -47,6 +47,21 @@ func (h *StateHandler) CreateState(w http.ResponseWriter, r *http.Request) {
 // GetStates 状態一覧取得
 // GET /api/states
 func (h *StateHandler) GetStates(w http.ResponseWriter, r *http.Request) {
+	if equipmentIDStr := r.URL.Query().Get("equipment_id"); equipmentIDStr != "" {
+		equipmentID, err := strconv.Atoi(equipmentIDStr)
+		if err != nil {
+			response.BadRequest(w, "Invalid equipment_id")
+			return
+		}
+		states, err := h.service.GetStatesByEquipmentID(equipmentID)
+		if err != nil {
+			response.InternalServerError(w, "Failed to get states")
+			return
+		}
+		response.Success(w, states)
+		return
+	}
+
 	states, err := h.service.GetAllStates()
 	if err != nil {
 		response.InternalServerError(w, "Failed to get states")

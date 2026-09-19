@@ -52,6 +52,21 @@ func (s *StateService) GetAllStates() ([]*trick.StateResponse, error) {
 	return responses, nil
 }
 
+// GetStatesByEquipmentID 指定した道具に属する状態のみを取得
+func (s *StateService) GetStatesByEquipmentID(equipmentID int) ([]*trick.StateResponse, error) {
+	states, err := s.repo.GetAll()
+	if err != nil {
+		return nil, err
+	}
+	responses := make([]*trick.StateResponse, 0)
+	for _, st := range states {
+		if st.EquipmentID == equipmentID {
+			responses = append(responses, st.ToResponse())
+		}
+	}
+	return responses, nil
+}
+
 // GetStateByID IDで状態を取得
 func (s *StateService) GetStateByID(id int) (*trick.StateResponse, error) {
 	state, err := s.repo.GetByID(id)

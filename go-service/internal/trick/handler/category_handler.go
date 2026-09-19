@@ -46,6 +46,21 @@ func (h *CategoryHandler) CreateCategory(w http.ResponseWriter, r *http.Request)
 // GetCategories カテゴリ一覧取得
 // GET /api/equipment-categories
 func (h *CategoryHandler) GetCategories(w http.ResponseWriter, r *http.Request) {
+	if equipmentIDStr := r.URL.Query().Get("equipment_id"); equipmentIDStr != "" {
+		equipmentID, err := strconv.Atoi(equipmentIDStr)
+		if err != nil {
+			response.BadRequest(w, "Invalid equipment_id")
+			return
+		}
+		categories, err := h.service.GetCategoriesByEquipmentID(equipmentID)
+		if err != nil {
+			response.InternalServerError(w, "Failed to get equipment categories")
+			return
+		}
+		response.Success(w, categories)
+		return
+	}
+
 	categories, err := h.service.GetAllCategories()
 	if err != nil {
 		response.InternalServerError(w, "Failed to get equipment categories")

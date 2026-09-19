@@ -47,6 +47,21 @@ func (h *TrickHandler) CreateTrick(w http.ResponseWriter, r *http.Request) {
 // GetTricks 技一覧取得
 // GET /api/tricks
 func (h *TrickHandler) GetTricks(w http.ResponseWriter, r *http.Request) {
+	if equipmentIDStr := r.URL.Query().Get("equipment_id"); equipmentIDStr != "" {
+		equipmentID, err := strconv.Atoi(equipmentIDStr)
+		if err != nil {
+			response.BadRequest(w, "Invalid equipment_id")
+			return
+		}
+		tricks, err := h.service.GetTricksByEquipmentID(equipmentID)
+		if err != nil {
+			response.InternalServerError(w, "Failed to get tricks")
+			return
+		}
+		response.Success(w, tricks)
+		return
+	}
+
 	tricks, err := h.service.GetAllTricks()
 	if err != nil {
 		response.InternalServerError(w, "Failed to get tricks")

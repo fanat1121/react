@@ -102,6 +102,21 @@ func (s *TrickService) GetAllTricks() ([]*trick.TrickResponse, error) {
 	return responses, nil
 }
 
+// GetTricksByEquipmentID 指定した道具に属する技のみを取得
+func (s *TrickService) GetTricksByEquipmentID(equipmentID int) ([]*trick.TrickResponse, error) {
+	tricks, err := s.trickRepo.GetAll()
+	if err != nil {
+		return nil, err
+	}
+	responses := make([]*trick.TrickResponse, 0)
+	for _, t := range tricks {
+		if t.EquipmentID == equipmentID {
+			responses = append(responses, t.ToResponse())
+		}
+	}
+	return responses, nil
+}
+
 // GetTrickByID IDで技を取得
 func (s *TrickService) GetTrickByID(id int) (*trick.TrickResponse, error) {
 	t, err := s.trickRepo.GetByID(id)
