@@ -33,6 +33,10 @@ func (h *TrickHandler) CreateTrick(w http.ResponseWriter, r *http.Request) {
 
 	created, err := h.service.CreateTrick(&req)
 	if err != nil {
+		if err.Error() == "trick name already exists" {
+			response.Conflict(w, err.Error())
+			return
+		}
 		response.BadRequest(w, err.Error())
 		return
 	}

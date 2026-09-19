@@ -62,7 +62,7 @@ go-service/
 ### Task 1: DBマイグレーション
 
 **Files:**
-- Create: `go-service/docker/mysql/init/02_trick_master.sql`
+- Create: `docker/mysql/init/02_trick_master.sql`
 
 **Interfaces:**
 - Produces: `equipment_master`, `equipment_category_master`, `state_master`, `trick_master` の4テーブル（カラム定義は `go-service/docs/db/tricks/*.md` の通り）
@@ -70,7 +70,7 @@ go-service/
 - [ ] **Step 1: マイグレーションSQLを書く**
 
 ```sql
--- go-service/docker/mysql/init/02_trick_master.sql
+-- docker/mysql/init/02_trick_master.sql
 SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE equipment_master (
@@ -142,7 +142,7 @@ CREATE TABLE trick_master (
 
 Run:
 ```bash
-docker exec -i devcontainer_mysql mysql -uroot -p"$MYSQL_ROOT_PASSWORD" go_service < go-service/docker/mysql/init/02_trick_master.sql
+docker exec -i devcontainer_mysql mysql -uroot -p"$MYSQL_ROOT_PASSWORD" go_service < docker/mysql/init/02_trick_master.sql
 docker exec devcontainer_mysql mysql -uroot -p"$MYSQL_ROOT_PASSWORD" go_service -e "SHOW TABLES LIKE '%master';"
 ```
 
@@ -151,7 +151,7 @@ Expected: `equipment_master`, `equipment_category_master`, `state_master`, `tric
 - [ ] **Step 3: コミット**
 
 ```bash
-git add go-service/docker/mysql/init/02_trick_master.sql
+git add docker/mysql/init/02_trick_master.sql
 git commit -m "feat(db): 技マスタ関連4テーブルのマイグレーションを追加"
 ```
 

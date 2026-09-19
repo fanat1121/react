@@ -33,6 +33,14 @@ func NewMySQLTrickRepository(db *database.DB) TrickRepository {
 
 // Create 技を作成
 func (r *MySQLTrickRepository) Create(t *Trick) error {
+	var count int
+	if err := r.db.QueryRow(r.query.CheckNameExists(), t.EquipmentID, t.Name).Scan(&count); err != nil {
+		return err
+	}
+	if count > 0 {
+		return errors.New("trick name already exists")
+	}
+
 	now := time.Now()
 	result, err := r.db.Exec(
 		r.query.Insert(),

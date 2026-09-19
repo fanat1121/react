@@ -21,6 +21,14 @@ func (q *TrickQuery) Insert() string {
 	`
 }
 
+// CheckNameExists 同一道具内での名前重複チェックSQL
+func (q *TrickQuery) CheckNameExists() string {
+	return `
+		SELECT COUNT(*) FROM trick_master
+		WHERE equipment_id = ? AND name = ? AND is_invalid = 0
+	`
+}
+
 // SelectByID ID検索SQL
 func (q *TrickQuery) SelectByID() string {
 	return `

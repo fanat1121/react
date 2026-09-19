@@ -1,4 +1,4 @@
-# equipment_category_master（設計中・未実装）
+# equipment_category_master
 
 道具カテゴリマスタ。道具ごとの分類タグ（絞り込み表示用）。状態(State)の区切りには使わない——道具内でカテゴリをまたいで技が繋がるケース（例: 2個→3個へ増やす技）があるため、State側は道具単位でのみ区切る（[state_master](./state_master.md)参照）。
 

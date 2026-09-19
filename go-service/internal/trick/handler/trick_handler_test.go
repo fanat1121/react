@@ -23,6 +23,11 @@ func newStubTrickRepository() *stubTrickRepository {
 }
 
 func (s *stubTrickRepository) Create(t *trick.Trick) error {
+	for _, existing := range s.items {
+		if existing.EquipmentID == t.EquipmentID && existing.Name == t.Name {
+			return errors.New("trick name already exists")
+		}
+	}
 	t.ID = s.nextID
 	s.items[t.ID] = t
 	s.nextID++
@@ -59,6 +64,8 @@ func newTrickHandlerForTest() (*TrickHandler, *stubTrickRepository) {
 	equipmentRepo := newStubEquipmentRepository()
 	equipmentRepo.items[1] = &trick.Equipment{ID: 1, Name: "ディアボロ"}
 	equipmentRepo.nextID = 2
+	equipmentRepo.items[2] = &trick.Equipment{ID: 2, Name: "シガーボックス"}
+	equipmentRepo.nextID = 3
 
 	categoryRepo := newStubCategoryRepository()
 	categoryRepo.items[1] = &trick.EquipmentCategory{ID: 1, EquipmentID: 1, Name: "2個"}
@@ -68,6 +75,8 @@ func newTrickHandlerForTest() (*TrickHandler, *stubTrickRepository) {
 	stateRepo.items[1] = &trick.State{ID: 1, EquipmentID: 1, Name: "待機"}
 	stateRepo.items[2] = &trick.State{ID: 2, EquipmentID: 1, Name: "カスケード中"}
 	stateRepo.nextID = 3
+	stateRepo.items[3] = &trick.State{ID: 3, EquipmentID: 2, Name: "別道具の状態"}
+	stateRepo.nextID = 4
 
 	trickRepo := newStubTrickRepository()
 
@@ -98,14 +107,14 @@ func TestCreateTrick_Success(t *testing.T) {
 func TestCreateTrick_StateBelongsToDifferentEquipment(t *testing.T) {
 	h, _ := newTrickHandlerForTest()
 
-	// equipment_id=1で登録するが、end_state_idに別道具の状態を混ぜる想定を
-	// シミュレートするため、equipment_id=1に存在しないstate_idを指定する
+	// equipment_id=1で登録するが、end_state_idに別道具(equipment_id=2)の
+	// 実在するstate_id=3を指定し、所有者不一致の分岐を検証する
 	body, _ := json.Marshal(map[string]interface{}{
 		"equipment_id":   1,
 		"category_id":    1,
 		"name":           "不正な技",
 		"start_state_id": 1,
-		"end_state_id":   999,
+		"end_state_id":   3,
 	})
 	req := httptest.NewRequest("POST", "/api/tricks", bytes.NewReader(body))
 	w := httptest.NewRecorder()
@@ -114,6 +123,28 @@ func TestCreateTrick_StateBelongsToDifferentEquipment(t *testing.T) {
 
 	if w.Code != 400 {
 		t.Fatalf("expected status 400, got %d, body: %s", w.Code, w.Body.String())
+	}
+}
+
+func TestCreateTrick_DuplicateName(t *testing.T) {
+	h, trickRepo := newTrickHandlerForTest()
+	trickRepo.items[1] = &trick.Trick{ID: 1, EquipmentID: 1, CategoryID: 1, Name: "カスケード", StartStateID: 1, EndStateID: 2}
+	trickRepo.nextID = 2
+
+	body, _ := json.Marshal(map[string]interface{}{
+		"equipment_id":   1,
+		"category_id":    1,
+		"name":           "カスケード",
+		"start_state_id": 1,
+		"end_state_id":   2,
+	})
+	req := httptest.NewRequest("POST", "/api/tricks", bytes.NewReader(body))
+	w := httptest.NewRecorder()
+
+	h.CreateTrick(w, req)
+
+	if w.Code != 409 {
+		t.Fatalf("expected status 409, got %d, body: %s", w.Code, w.Body.String())
 	}
 }
 
