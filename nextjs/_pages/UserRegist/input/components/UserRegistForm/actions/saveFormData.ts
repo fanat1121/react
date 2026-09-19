@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 import redis from '@/lib/redis';
 import { validateUserRegistData } from '../services/validation';
-import { UserRegistFormData } from '@/components/UserRegist/types/UserRegistFormData';
+import { UserRegistFormData } from '@/_pages/UserRegist/types/UserRegistFormData';
 
 export type SaveFormDataResult = {
   success: boolean;

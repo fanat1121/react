@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import React from 'react';
-import { QuoteViewContainer } from '@/components/quote';
+import { QuoteViewContainer } from '@/_pages/quote';
 
 export const metadata: Metadata = {
   title: 'Bold Practice',

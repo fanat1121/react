@@ -1,5 +1,5 @@
 import React from 'react';
-import { PythonBugList } from '@/components/tips/PythonBugList';
+import { PythonBugList } from '@/_pages/tips/PythonBugList';
 
 const PythonBugsPage: React.FC = () => {
   return <PythonBugList />;

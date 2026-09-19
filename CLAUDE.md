@@ -48,12 +48,12 @@ docker-compose up    # Start MySQL + Redis + Go service
 
 ## Frontend Architecture
 
-**App Router pages** in `nextjs/app/`: home, UserRegist, block (Tetris), hooks-demo, javascript-tips, python-bugs.
+**App Router pages** in `nextjs/app/`: routing-only (`page.tsx`, `layout.tsx`, `route.ts`); home, UserRegist, block (Tetris), deck-build, deck-tracker, hooks-demo, javascript-tips, python-bugs, login.
 
-**Component organization** in `nextjs/components/`:
-- `common/ui/` — Base UI atoms (Button, Input)
-- `common/Header|Footer/` — Layout shells
-- Feature-specific directories (quote, tips, tetris, UserRegist)
+**Component organization:**
+- `nextjs/components/common/` — Shared UI only (`ui/` atoms like Button/Input, `Header|Footer` layout shells, `SessionProviderWrapper`)
+- `nextjs/_pages/<feature>/` — Feature-specific components/hooks/const/schemas, one directory per `app/` route (deckBuild, deckTracker, UserRegist, Login, tetris, tips, quote, home). Named `_pages` (not `pages`) because Next.js reserves a top-level `pages/` directory for the legacy Pages Router.
+- `nextjs/hooks/`, `nextjs/utils/`, `nextjs/lib/` — Cross-feature shared hooks/utils/infra only; anything used by a single feature belongs under `_pages/<feature>/` instead
 
 **Key patterns:**
 - Container/View separation (e.g., `QuoteViewContainer` → `QuoteView`)

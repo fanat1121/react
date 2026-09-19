@@ -1,7 +1,7 @@
 'use server';
 
-import { userRegistSchema } from '@/components/UserRegist/schemas/schema';
-import { UserRegistFormData } from '@/components/UserRegist/types/UserRegistFormData';
+import { userRegistSchema } from '@/_pages/UserRegist/schemas/schema';
+import { UserRegistFormData } from '@/_pages/UserRegist/types/UserRegistFormData';
 
 export type RegisterResult = {
   success: boolean;

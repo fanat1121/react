@@ -1,7 +1,7 @@
-﻿import { userRegistSchema } from '@/components/UserRegist/schemas/schema';
+﻿import { userRegistSchema } from '@/_pages/UserRegist/schemas/schema';
 import { fetchPwnedPasswordsByRange } from '@/api/external/pwnedPasswords';
 import { createHashPrefix } from '@/utils/hash';
-import type { UserRegistFormData } from '@/components/UserRegist/types/UserRegistFormData';
+import type { UserRegistFormData } from '@/_pages/UserRegist/types/UserRegistFormData';
 
 export type ValidationResult = {
   success: boolean;

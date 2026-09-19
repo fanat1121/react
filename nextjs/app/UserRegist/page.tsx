@@ -1,5 +1,5 @@
 import React from 'react';
-import { UserRegistInput } from '@/components/UserRegist/input';
+import { UserRegistInput } from '@/_pages/UserRegist/input';
 
 const UserRegistInputPage: React.FC = () => {
   return <UserRegistInput />;

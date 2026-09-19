@@ -1,5 +1,5 @@
 import React from 'react';
-import { JavaScriptTips } from '@/components/tips/JavaScriptTips';
+import { JavaScriptTips } from '@/_pages/tips/JavaScriptTips';
 
 const JavaScriptTipsPage: React.FC = () => {
   return <JavaScriptTips />;

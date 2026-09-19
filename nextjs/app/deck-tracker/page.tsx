@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import React from 'react';
-import { DeckTrackerContainer } from '@/components/deckTracker';
+import { DeckTrackerContainer } from '@/_pages/deckTracker';
 
 export const metadata: Metadata = {
   title: 'スレスパ2 リージェントデッキトラッカー | Bold Practice',

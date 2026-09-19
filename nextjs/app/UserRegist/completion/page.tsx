@@ -1,5 +1,5 @@
 import React from 'react';
-import { UserRegistCompletion } from '@/components/UserRegist/completion';
+import { UserRegistCompletion } from '@/_pages/UserRegist/completion';
 
 type Props = {
   searchParams: Promise<{ loginId?: string }>;

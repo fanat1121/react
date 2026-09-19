@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import React from 'react';
-import { DeckBuildContainer } from '@/components/deckBuild';
+import { DeckBuildContainer } from '@/_pages/deckBuild';
 
 export const metadata: Metadata = {
   title: 'リージェント デッキビルド | Bold Practice',

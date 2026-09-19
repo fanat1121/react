@@ -1,7 +1,7 @@
 'use client';
 
 import { useUserRegistForm } from './hooks/useUserRegistForm';
-import { FormInput } from '@/components/UserRegist/components/FormInput';
+import { FormInput } from '@/_pages/UserRegist/components/FormInput';
 import { Button } from '@/components/common/ui/Button';
 import clsx from 'clsx';
 import styles from './UserRegistForm.module.scss';

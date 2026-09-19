@@ -1,5 +1,5 @@
 import React from "react";
-import { TetrisGame } from "@/components/tetris";
+import { TetrisGame } from "@/_pages/tetris";
 
 const BlockPage: React.FC = () => {
   return <TetrisGame />;
