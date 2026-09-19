@@ -1,0 +1,16 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 480px;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.formError {
+  color: #e74c3c;
+  font-size: 0.875rem;
+}

@@ -1,0 +1,43 @@
+.selectWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.required {
+  color: #e74c3c;
+  margin-left: 4px;
+}
+
+.select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d5dbdb;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1rem;
+  color: #2c3e50;
+  background-color: #ffffff;
+  transition: all 0.2s ease;
+
+  &:focus {
+    outline: none;
+    border-color: #6366f1;
+  }
+}
+
+.select--error {
+  border-color: #e74c3c;
+}
+
+.errorMessage {
+  color: #e74c3c;
+  font-size: 0.8125rem;
+}
