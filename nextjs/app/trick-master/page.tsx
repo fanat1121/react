@@ -1,6 +1,6 @@
 import React from 'react';
 import { TrickMaster } from '@/_pages/trickMaster';
-import type { EquipmentOption, CategoryOption, StateOption } from '@/_pages/trickMaster/types';
+import type { EquipmentOption } from '@/_pages/trickMaster/types';
 
 const GO_API_URL = process.env.GO_API_URL ?? 'http://localhost:8080';
 
@@ -15,20 +15,12 @@ async function fetchList<T>(path: string): Promise<T[]> {
 }
 
 const TrickMasterPage: React.FC = async () => {
-  const [equipmentOptions, categoryOptions, stateOptions] = await Promise.all([
-    fetchList<EquipmentOption>('/api/equipments'),
-    fetchList<CategoryOption>('/api/equipment-categories'),
-    fetchList<StateOption>('/api/states'),
-  ]);
+  const equipmentOptions = await fetchList<EquipmentOption>('/api/equipments');
 
   return (
     <div className="p-32">
       <h1 className="mb-24">マスタ登録</h1>
-      <TrickMaster
-        equipmentOptions={equipmentOptions}
-        categoryOptions={categoryOptions}
-        stateOptions={stateOptions}
-      />
+      <TrickMaster equipmentOptions={equipmentOptions} />
     </div>
   );
 };

@@ -1,21 +1,15 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { useTrickForm } from './hooks/useTrickForm';
 import { TrickForm } from './TrickForm';
 import type { EquipmentOption, CategoryOption, StateOption } from '../../../types';
 
 type TrickFormContainerProps = {
   equipmentOptions: EquipmentOption[];
-  categoryOptions: CategoryOption[];
-  stateOptions: StateOption[];
 };
 
-export const TrickFormContainer: React.FC<TrickFormContainerProps> = ({
-  equipmentOptions,
-  categoryOptions,
-  stateOptions,
-}) => {
+export const TrickFormContainer: React.FC<TrickFormContainerProps> = ({ equipmentOptions }) => {
   const {
     equipmentId,
     setEquipmentId,
@@ -39,21 +33,37 @@ export const TrickFormContainer: React.FC<TrickFormContainerProps> = ({
     handleSubmit,
   } = useTrickForm();
 
-  const filteredCategoryOptions = useMemo(
-    () => categoryOptions.filter((c) => String(c.equipment_id) === equipmentId),
-    [categoryOptions, equipmentId]
-  );
+  const [categoryOptions, setCategoryOptions] = useState<CategoryOption[]>([]);
+  const [stateOptions, setStateOptions] = useState<StateOption[]>([]);
 
-  const filteredStateOptions = useMemo(
-    () => stateOptions.filter((s) => String(s.equipment_id) === equipmentId),
-    [stateOptions, equipmentId]
-  );
+  useEffect(() => {
+    if (!equipmentId) {
+      setCategoryOptions([]);
+      setStateOptions([]);
+      return;
+    }
+
+    let cancelled = false;
+
+    Promise.all([
+      fetch(`/api/equipment-categories?equipment_id=${equipmentId}`).then((res) => res.json()),
+      fetch(`/api/states?equipment_id=${equipmentId}`).then((res) => res.json()),
+    ]).then(([categoryJson, stateJson]) => {
+      if (cancelled) return;
+      setCategoryOptions(categoryJson.success ? categoryJson.data : []);
+      setStateOptions(stateJson.success ? stateJson.data : []);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [equipmentId]);
 
   return (
     <TrickForm
       equipmentOptions={equipmentOptions}
-      categoryOptions={filteredCategoryOptions}
-      stateOptions={filteredStateOptions}
+      categoryOptions={categoryOptions}
+      stateOptions={stateOptions}
       equipmentId={equipmentId}
       onEquipmentIdChange={setEquipmentId}
       categoryId={categoryId}
