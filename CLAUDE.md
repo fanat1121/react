@@ -62,8 +62,10 @@ docker-compose up    # Start MySQL + Redis + Go service
 - Use `clsx` when applying multiple class names conditionally
 - CSS spacing must use multiples of 8px; use spacing variables from `@/styles/variables.scss` (`$spacing_1`〜`$spacing_6`)
 - Avoid magic numbers and magic strings; declare constants locally (`const` in the same file) for single-use values, or place them in the appropriate `const/` directory for shared use
+- コンポーネントは原則 `*.stories.tsx` と `play` 関数をセットで作成し、検証可能な状態にしておくこと（Storybook interaction test）
+- `utils/` の関数も同様に、原則 `__tests__/` 配下にユニットテストをセットで作成し、検証可能な状態にしておくこと
 
-**Testing:** Vitest has two projects — `unit` (Node env, for utilities in `utils/__tests__/`) and `storybook` (Playwright browser env, for component stories).
+**Testing:** Vitest has two projects — `unit` (Node env, for utilities in `utils/__tests__/`) and `storybook` (Playwright browser env, for component stories). `npm run storybook` を実行して `play` 関数のインタラクションが通ることを確認する。
 
 ## Backend Architecture
 

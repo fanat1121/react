@@ -162,3 +162,30 @@ func (t *Trick) ToResponse() *TrickResponse {
 		UpdatedAt:                t.UpdatedAt,
 	}
 }
+
+// TrickDetailResponse 技詳細レスポンス（道具名・カテゴリ名・状態名を解決済み）
+type TrickDetailResponse struct {
+	ID                       int       `json:"id"`
+	EquipmentID              int       `json:"equipment_id"`
+	EquipmentName            string    `json:"equipment_name"`
+	CategoryID               int       `json:"category_id"`
+	CategoryName             string    `json:"category_name"`
+	Name                     string    `json:"name"`
+	Description              *string   `json:"description,omitempty"`
+	StartStateID             int       `json:"start_state_id"`
+	StartStateName           string    `json:"start_state_name"`
+	EndStateID               int       `json:"end_state_id"`
+	EndStateName             string    `json:"end_state_name"`
+	VideoURL                 *string   `json:"video_url,omitempty"`
+	EstimatedDurationSeconds int       `json:"estimated_duration_seconds"`
+	CreatedAt                time.Time `json:"created_at"`
+	UpdatedAt                time.Time `json:"updated_at"`
+}
+
+// TrickSearchFilter 技検索条件
+type TrickSearchFilter struct {
+	Name        string
+	EquipmentID *int
+	CategoryID  *int
+	StateID     *int // StartStateIDまたはEndStateIDのいずれかに一致
+}

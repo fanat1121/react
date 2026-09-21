@@ -44,25 +44,40 @@ func (h *TrickHandler) CreateTrick(w http.ResponseWriter, r *http.Request) {
 	response.Created(w, created)
 }
 
-// GetTricks 技一覧取得
+// GetTricks 技検索・一覧取得
 // GET /api/tricks
 func (h *TrickHandler) GetTricks(w http.ResponseWriter, r *http.Request) {
-	if equipmentIDStr := r.URL.Query().Get("equipment_id"); equipmentIDStr != "" {
+	query := r.URL.Query()
+	filter := trick.TrickSearchFilter{Name: query.Get("name")}
+
+	if equipmentIDStr := query.Get("equipment_id"); equipmentIDStr != "" {
 		equipmentID, err := strconv.Atoi(equipmentIDStr)
 		if err != nil {
 			response.BadRequest(w, "Invalid equipment_id")
 			return
 		}
-		tricks, err := h.service.GetTricksByEquipmentID(equipmentID)
-		if err != nil {
-			response.InternalServerError(w, "Failed to get tricks")
-			return
-		}
-		response.Success(w, tricks)
-		return
+		filter.EquipmentID = &equipmentID
 	}
 
-	tricks, err := h.service.GetAllTricks()
+	if categoryIDStr := query.Get("category_id"); categoryIDStr != "" {
+		categoryID, err := strconv.Atoi(categoryIDStr)
+		if err != nil {
+			response.BadRequest(w, "Invalid category_id")
+			return
+		}
+		filter.CategoryID = &categoryID
+	}
+
+	if stateIDStr := query.Get("state_id"); stateIDStr != "" {
+		stateID, err := strconv.Atoi(stateIDStr)
+		if err != nil {
+			response.BadRequest(w, "Invalid state_id")
+			return
+		}
+		filter.StateID = &stateID
+	}
+
+	tricks, err := h.service.SearchTricks(filter)
 	if err != nil {
 		response.InternalServerError(w, "Failed to get tricks")
 		return

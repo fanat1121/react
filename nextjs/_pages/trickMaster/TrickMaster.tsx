@@ -3,6 +3,7 @@ import { EquipmentFormContainer } from './equipment/components/EquipmentForm/Equ
 import { CategoryFormContainer } from './category/components/CategoryForm/CategoryFormContainer';
 import { StateFormContainer } from './state/components/StateForm/StateFormContainer';
 import { TrickFormContainer } from './trick/components/TrickForm/TrickFormContainer';
+import { TrickSearchContainer } from './trick/components/TrickSearch/TrickSearchContainer';
 import type { EquipmentOption } from './types';
 
 type TrickMasterProps = {
@@ -17,6 +18,7 @@ export const TrickMaster: React.FC<TrickMasterProps> = ({ equipmentOptions }) =>
         { key: 'category', label: 'カテゴリ', content: <CategoryFormContainer equipmentOptions={equipmentOptions} /> },
         { key: 'state', label: '状態', content: <StateFormContainer equipmentOptions={equipmentOptions} /> },
         { key: 'trick', label: '技', content: <TrickFormContainer equipmentOptions={equipmentOptions} /> },
+        { key: 'search', label: '検索', content: <TrickSearchContainer equipmentOptions={equipmentOptions} /> },
       ]}
     />
   );
