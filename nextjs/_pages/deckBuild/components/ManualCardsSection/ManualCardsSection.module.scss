@@ -1,0 +1,38 @@
+@use '@/styles/variables';
+
+.junkRow {
+  display: flex;
+  justify-content: center;
+  margin-top: variables.$spacing_2;
+  padding: variables.$spacing_1;
+  background-color: #f8f9fa;
+  border: 1px dashed #ccc;
+  border-radius: 8px;
+}
+
+.section {
+  margin-top: variables.$spacing_3;
+}
+
+.sectionTitle {
+  margin-bottom: variables.$spacing_1;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  padding: variables.$spacing_2;
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.note {
+  margin: variables.$spacing_1 0 0;
+  font-size: 0.75rem;
+  color: #888;
+}

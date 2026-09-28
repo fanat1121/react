@@ -1,16 +1,13 @@
 import React from 'react';
 import { CounterField } from '@/components/common/ui/CounterField';
-import type { CardData } from './const/types';
+import type { CardCount, CardData, CardVariant } from '../../const/types';
 import styles from './CardRow.module.scss';
 
 export type CardRowProps = {
   card: CardData;
-  baseCount: number;
-  plusCount: number;
-  onIncrementBase: () => void;
-  onDecrementBase: () => void;
-  onIncrementPlus: () => void;
-  onDecrementPlus: () => void;
+  count: CardCount;
+  /** 無印/+版の枚数をdelta分増減する */
+  onChange: (variant: CardVariant, delta: number) => void;
 };
 
 const formatCost = (energy: number | null, star: number | null): string => {
@@ -24,15 +21,7 @@ const formatCost = (energy: number | null, star: number | null): string => {
  * UI層。カード1件分の情報表示と、無印/+版それぞれの所持枚数増減UIを合成する。
  * 状態は持たず、propsで受け取ったカウント/ハンドラをそのまま橋渡しする。
  */
-export const CardRow: React.FC<CardRowProps> = ({
-  card,
-  baseCount,
-  plusCount,
-  onIncrementBase,
-  onDecrementBase,
-  onIncrementPlus,
-  onDecrementPlus,
-}) => {
+export const CardRow: React.FC<CardRowProps> = ({ card, count, onChange }) => {
   return (
     <div className={styles.row}>
       <div className={styles.info}>
@@ -47,17 +36,17 @@ export const CardRow: React.FC<CardRowProps> = ({
       <div className={styles.counters}>
         <CounterField
           label="無印"
-          value={baseCount}
+          value={count.base}
           unit="枚"
-          onIncrement={onIncrementBase}
-          onDecrement={onDecrementBase}
+          onIncrement={() => onChange('base', 1)}
+          onDecrement={() => onChange('base', -1)}
         />
         <CounterField
           label="+版"
-          value={plusCount}
+          value={count.plus}
           unit="枚"
-          onIncrement={onIncrementPlus}
-          onDecrement={onDecrementPlus}
+          onIncrement={() => onChange('plus', 1)}
+          onDecrement={() => onChange('plus', -1)}
         />
       </div>
     </div>

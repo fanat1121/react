@@ -1,0 +1,13 @@
+@use '@/styles/variables';
+
+.searchInput {
+  width: 100%;
+  margin-bottom: variables.$spacing_2;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: variables.$spacing_2;
+}

@@ -1,0 +1,11 @@
+@use '@/styles/variables';
+
+.summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: variables.$spacing_3;
+  padding: variables.$spacing_2;
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+}

@@ -28,3 +28,40 @@ export type CardData = {
   effectBase: string;
   effectPlus: string;
 };
+
+/** 無印/+版の区別 */
+export type CardVariant = 'base' | 'plus';
+
+export type CardCount = Record<CardVariant, number>;
+
+export type CardCounts = Record<string, CardCount>;
+
+export type DeckBuildSummary = {
+  /** カタログカード（リージェント専用＋無色＋エンシェント）のみの合計枚数 */
+  totalCardCount: number;
+  /** カタログカード＋イレギュラーカード＋ごみ札の合計枚数 */
+  totalDeckCount: number;
+  countByType: Record<CardType, number>;
+  /** スキルカードのうちブロックを得る効果を持つカードの枚数 */
+  blockSkillCount: number;
+  /** スキルカードのうちブロックを得ない効果のカードの枚数（イレギュラースキルもここに含む） */
+  nonBlockSkillCount: number;
+  totalPower: number;
+  totalBlock: number;
+  totalStarCost: number;
+  totalStarGain: number;
+  totalEnergyCost: number;
+  /** ✦をコストに持つカードのデッキ内枚数（三日月の槍の威力算出に使用） */
+  starCostCardCount: number;
+  /** ✦を得る効果を持つカードのデッキ内枚数 */
+  starGainCardCount: number;
+  /** 三日月の槍/+ の現在の最大威力（deckの構成から動的算出） */
+  crescentSpearPower: number;
+  crescentSpearPlusPower: number;
+  /** 平均値はカード0枚の場合0とする */
+  averageAttackPower: number;
+  averageBlock: number;
+  averageStarCost: number;
+  averageStarGain: number;
+  averageEnergyCost: number;
+};
