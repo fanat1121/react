@@ -31,6 +31,9 @@ export default defineConfig({
         },
       },
       {
+        resolve: {
+          alias: { '@': dirname },
+        },
         test: {
           name: 'unit',
           include: ['**/__tests__/**/*.test.ts', '**/*.spec.ts'],

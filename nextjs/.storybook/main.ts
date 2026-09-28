@@ -1,4 +1,5 @@
 import type { StorybookConfig } from "@storybook/nextjs-vite";
+import path from "node:path";
 import { mergeConfig } from "vite";
 
 const config: StorybookConfig = {
@@ -28,6 +29,8 @@ const config: StorybookConfig = {
       resolve: {
         alias: {
           ioredis: require.resolve("./__mocks__/ioredis.ts"),
+          // SCSSの`@use '@/styles/variables'`はtsconfig pathsでは解決されないため明示する
+          "@": path.resolve(__dirname, ".."),
         },
       },
     }),
