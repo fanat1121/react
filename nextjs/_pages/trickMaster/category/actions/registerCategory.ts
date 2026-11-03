@@ -1,5 +1,6 @@
 'use server';
 
+import { canEditTrickMaster, UNAUTHORIZED_MESSAGE } from '../../auth/canEditTrickMaster';
 import { categorySchema } from '../schemas/schema';
 import type { CategoryFormData } from '../schemas/schema';
 
@@ -15,6 +16,10 @@ export type RegisterCategoryResult = {
 };
 
 export async function registerCategory(formData: CategoryFormData): Promise<RegisterCategoryResult> {
+  if (!(await canEditTrickMaster())) {
+    return { success: false, errors: { _form: [UNAUTHORIZED_MESSAGE] } };
+  }
+
   const result = categorySchema.safeParse(formData);
 
   if (!result.success) {

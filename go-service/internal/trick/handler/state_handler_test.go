@@ -58,9 +58,19 @@ func (s *stubStateRepository) Delete(id int) error {
 	return nil
 }
 
+func (s *stubStateRepository) CountByEquipmentID(equipmentID int) (int, error) {
+	count := 0
+	for _, st := range s.items {
+		if st.EquipmentID == equipmentID {
+			count++
+		}
+	}
+	return count, nil
+}
+
 func TestCreateState_Success(t *testing.T) {
 	repo := newStubStateRepository()
-	h := NewStateHandler(service.NewStateService(repo))
+	h := NewStateHandler(service.NewStateService(repo, newStubTrickRepository()))
 
 	body, _ := json.Marshal(map[string]interface{}{"equipment_id": 1, "name": "3ボール片手待機"})
 	req := httptest.NewRequest("POST", "/api/states", bytes.NewReader(body))
@@ -75,7 +85,7 @@ func TestCreateState_Success(t *testing.T) {
 
 func TestGetStateByID_NotFound(t *testing.T) {
 	repo := newStubStateRepository()
-	h := NewStateHandler(service.NewStateService(repo))
+	h := NewStateHandler(service.NewStateService(repo, newStubTrickRepository()))
 
 	req := httptest.NewRequest("GET", "/api/states/999", nil)
 	req = mux.SetURLVars(req, map[string]string{"id": "999"})
@@ -85,5 +95,82 @@ func TestGetStateByID_NotFound(t *testing.T) {
 
 	if w.Code != 404 {
 		t.Fatalf("expected status 404, got %d, body: %s", w.Code, w.Body.String())
+	}
+}
+
+// newStateHandlerForDeleteTest 削除テスト用に状態id=1,2を登録したハンドラーと技リポジトリを返す
+func newStateHandlerForDeleteTest() (*StateHandler, *stubStateRepository, *stubTrickRepository) {
+	repo := newStubStateRepository()
+	repo.items[1] = &trick.State{ID: 1, EquipmentID: 1, Name: "待機"}
+	repo.items[2] = &trick.State{ID: 2, EquipmentID: 1, Name: "カスケード中"}
+	repo.nextID = 3
+	trickRepo := newStubTrickRepository()
+	h := NewStateHandler(service.NewStateService(repo, trickRepo))
+	return h, repo, trickRepo
+}
+
+func doDeleteState(h *StateHandler, id string) *httptest.ResponseRecorder {
+	req := httptest.NewRequest("DELETE", "/api/states/"+id, nil)
+	req = mux.SetURLVars(req, map[string]string{"id": id})
+	w := httptest.NewRecorder()
+	h.DeleteState(w, req)
+	return w
+}
+
+func TestDeleteState_Success(t *testing.T) {
+	h, repo, _ := newStateHandlerForDeleteTest()
+
+	w := doDeleteState(h, "1")
+
+	if w.Code != 200 {
+		t.Fatalf("expected status 200, got %d, body: %s", w.Code, w.Body.String())
+	}
+	if _, ok := repo.items[1]; ok {
+		t.Fatalf("expected state to be deleted")
+	}
+}
+
+func TestDeleteState_NotFound(t *testing.T) {
+	h, _, _ := newStateHandlerForDeleteTest()
+
+	w := doDeleteState(h, "999")
+
+	if w.Code != 404 {
+		t.Fatalf("expected status 404, got %d, body: %s", w.Code, w.Body.String())
+	}
+}
+
+func TestDeleteState_InvalidID(t *testing.T) {
+	h, _, _ := newStateHandlerForDeleteTest()
+
+	w := doDeleteState(h, "abc")
+
+	if w.Code != 400 {
+		t.Fatalf("expected status 400, got %d, body: %s", w.Code, w.Body.String())
+	}
+}
+
+func TestDeleteState_InUseAsStartState(t *testing.T) {
+	h, repo, trickRepo := newStateHandlerForDeleteTest()
+	trickRepo.items[1] = &trick.Trick{ID: 1, EquipmentID: 1, CategoryID: 1, Name: "技", StartStateID: 1, EndStateID: 2}
+
+	w := doDeleteState(h, "1")
+
+	if w.Code != 409 {
+		t.Fatalf("expected status 409, got %d, body: %s", w.Code, w.Body.String())
+	}
+	if _, ok := repo.items[1]; !ok {
+		t.Fatalf("expected state not to be deleted")
+	}
+}
+
+func TestDeleteState_InUseAsEndState(t *testing.T) {
+	h, _, trickRepo := newStateHandlerForDeleteTest()
+	trickRepo.items[1] = &trick.Trick{ID: 1, EquipmentID: 1, CategoryID: 1, Name: "技", StartStateID: 1, EndStateID: 2}
+
+	w := doDeleteState(h, "2")
+
+	if w.Code != 409 {
+		t.Fatalf("expected status 409, got %d, body: %s", w.Code, w.Body.String())
 	}
 }

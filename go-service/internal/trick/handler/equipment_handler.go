@@ -2,6 +2,7 @@ package handler
 
 import (
 	"encoding/json"
+	"errors"
 	"go-service/internal/trick"
 	"go-service/internal/trick/service"
 	"go-service/pkg/response"
@@ -83,6 +84,11 @@ func (h *EquipmentHandler) DeleteEquipment(w http.ResponseWriter, r *http.Reques
 	}
 
 	if err := h.service.DeleteEquipment(id); err != nil {
+		// 有効な行から参照されている場合は 409
+		if errors.Is(err, trick.ErrInUse) {
+			response.Conflict(w, "equipment is in use")
+			return
+		}
 		response.NotFound(w, err.Error())
 		return
 	}

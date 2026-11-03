@@ -1,18 +1,21 @@
 package service
 
 import (
+	"fmt"
 	"go-service/internal/trick"
 	"go-service/pkg/validator"
 )
 
 // CategoryService 道具カテゴリマスタのビジネスロジック
 type CategoryService struct {
-	repo trick.EquipmentCategoryRepository
+	repo      trick.EquipmentCategoryRepository
+	trickRepo trick.TrickRepository
 }
 
 // NewCategoryService サービスを作成
-func NewCategoryService(repo trick.EquipmentCategoryRepository) *CategoryService {
-	return &CategoryService{repo: repo}
+// 削除時の参照チェックのため、カテゴリを参照する技のリポジトリも受け取る
+func NewCategoryService(repo trick.EquipmentCategoryRepository, trickRepo trick.TrickRepository) *CategoryService {
+	return &CategoryService{repo: repo, trickRepo: trickRepo}
 }
 
 // CreateCategory カテゴリを登録
@@ -66,6 +69,21 @@ func (s *CategoryService) GetCategoryByID(id int) (*trick.EquipmentCategoryRespo
 }
 
 // DeleteCategory カテゴリを論理削除
+// 有効な技から参照されている場合は trick.ErrInUse を返す
+// NOTE: チェックと削除の間の競合は許容している（docs/TODO-trick-master.md 参照）
 func (s *CategoryService) DeleteCategory(id int) error {
+	// 存在しない（削除済み含む）場合は参照チェックより先に not found を返す
+	if _, err := s.repo.GetByID(id); err != nil {
+		return err
+	}
+
+	n, err := s.trickRepo.CountByCategoryID(id)
+	if err != nil {
+		return err
+	}
+	if n > 0 {
+		return fmt.Errorf("equipment category is in use: %w", trick.ErrInUse)
+	}
+
 	return s.repo.Delete(id)
 }

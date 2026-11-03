@@ -14,6 +14,8 @@ type EquipmentCategoryRepository interface {
 	GetByID(id int) (*EquipmentCategory, error)
 	GetAll() ([]*EquipmentCategory, error)
 	Delete(id int) error
+	// CountByEquipmentID 指定した道具を参照する有効なカテゴリ件数を取得
+	CountByEquipmentID(equipmentID int) (int, error)
 }
 
 // MySQLEquipmentCategoryRepository MySQL実装
@@ -104,4 +106,13 @@ func (r *MySQLEquipmentCategoryRepository) Delete(id int) error {
 		return errors.New("equipment category not found")
 	}
 	return nil
+}
+
+// CountByEquipmentID 指定した道具を参照する有効なカテゴリ件数を取得
+func (r *MySQLEquipmentCategoryRepository) CountByEquipmentID(equipmentID int) (int, error) {
+	var count int
+	if err := r.db.QueryRow(r.query.CountByEquipmentID(), equipmentID).Scan(&count); err != nil {
+		return 0, err
+	}
+	return count, nil
 }

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import React from 'react';
+import Link from 'next/link';
 import { QuoteViewContainer } from '@/_pages/quote';
 
 export const metadata: Metadata = {
@@ -47,6 +48,18 @@ const Home = () => {
                 </li>
                 <li>
                   <a href="/deck-build">スレスパ2 リージェントデッキビルド</a>
+                </li>
+                <li>
+                  <Link href="/trick-master">技マスタ登録</Link>
+                </li>
+                <li>
+                  <Link href="/trick-master/tricks">技検索</Link>
+                </li>
+                <li>
+                  <Link href="/jev-demo">Jev 動画判定デモ</Link>
+                </li>
+                <li>
+                  <Link href="/jev-demo/shapes">Jev 図形判定デモ</Link>
                 </li>
               </ul>
             </div>

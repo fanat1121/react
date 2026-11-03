@@ -4,9 +4,11 @@
 
 ## セキュリティ
 
-- [ ] **認証チェックがない**
+- [x] **認証チェックがない**
   - `nextjs/middleware.ts:4` の `PROTECTED_PATHS` が `/dashboard` のみで、`/trick-master` はログインなしで開ける
   - Server Action（`nextjs/_pages/trickMaster/*/actions/register*.ts`）も認証チェックなし。Server Action は公開 HTTP エンドポイントなので、画面の保護とは別に Action 内で `auth()` を確認する
+  - 対応済み: `middleware.ts` の `PROTECTED_PATHS` に `/trick-master` を追加。全 Action の先頭で `_pages/trickMaster/auth/canEditTrickMaster.ts` を呼ぶ（現状はログイン済みなら許可。ロール導入時はこの関数を差し替える）
+  - 残り: Go API 自体は認証なし。閉域網に置く前提で当面はこのまま
 - [ ] **内部エラー文をそのままクライアントに返している**
   - `go-service/internal/trick/handler/*_handler.go` で `response.BadRequest(w, err.Error())` としているため、MySQL のエラー文（テーブル名・カラム名入り）がそのまま返る
 
@@ -22,6 +24,10 @@
   - `go-service/internal/trick/service/trick_service.go:35-` の存在チェックと `Create` がトランザクション外
   - 論理削除は外部キーでは検出できないため、削除済みの状態・カテゴリを参照する技が登録されうる
   - 対応: トランザクション内で親行を `SELECT ... FOR SHARE` でロックしてから INSERT
+- [ ] **道具・カテゴリ・状態の削除でも、参照チェックと論理削除の間に子が登録されうる**
+  - `go-service/internal/trick/service/{equipment,category,state}_service.go` の Delete は「有効な子の件数を数える → 0 件なら論理削除」をトランザクション外で行う
+  - 数えた直後に同じ親を参照する技などが登録されると、削除済みの親を参照する行が残る
+  - 対応: 上の技登録の項目と合わせ、トランザクション内で親行を `SELECT ... FOR UPDATE` でロックしてから数える
 - [ ] **`Transaction` の Commit エラーが呼び出し元に返らない**
   - `go-service/pkg/database/executor.go:25-43`。`err` が名前付き戻り値ではないため、`defer` 内の `err = tx.Commit()`（38行目）の結果は `return err`（43行目）の評価後に代入され、捨てられる
   - 対応: 戻り値を `(err error)` の名前付きにする

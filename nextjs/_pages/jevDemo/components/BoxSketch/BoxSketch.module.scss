@@ -1,0 +1,33 @@
+@use '@/styles/variables';
+
+.edges {
+  display: grid;
+  grid-template-columns: repeat(4, max-content max-content);
+  gap: variables.$spacing_1 variables.$spacing_2;
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+
+  dt {
+    font-weight: 700;
+  }
+
+  dd {
+    margin: 0;
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(2, max-content max-content);
+  }
+}
+
+.note {
+  --text-secondary: #52514e;
+
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+
+  @media (prefers-color-scheme: dark) {
+    --text-secondary: #c3c2b7;
+  }
+}

@@ -83,9 +83,9 @@ func setupTrickDomain(router *mux.Router, db *database.DB) {
 	stateRepo := trick.NewMySQLStateRepository(db)
 	trickRepo := trick.NewMySQLTrickRepository(db)
 
-	equipmentHandler := trickHandler.NewEquipmentHandler(trickService.NewEquipmentService(equipmentRepo))
-	categoryHandler := trickHandler.NewCategoryHandler(trickService.NewCategoryService(categoryRepo))
-	stateHandler := trickHandler.NewStateHandler(trickService.NewStateService(stateRepo))
+	equipmentHandler := trickHandler.NewEquipmentHandler(trickService.NewEquipmentService(equipmentRepo, categoryRepo, stateRepo, trickRepo))
+	categoryHandler := trickHandler.NewCategoryHandler(trickService.NewCategoryService(categoryRepo, trickRepo))
+	stateHandler := trickHandler.NewStateHandler(trickService.NewStateService(stateRepo, trickRepo))
 	trickDomainHandler := trickHandler.NewTrickHandler(trickService.NewTrickService(equipmentRepo, categoryRepo, stateRepo, trickRepo))
 
 	equipmentHandler.RegisterRoutes(router)

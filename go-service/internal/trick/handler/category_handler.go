@@ -2,6 +2,7 @@ package handler
 
 import (
 	"encoding/json"
+	"errors"
 	"go-service/internal/trick"
 	"go-service/internal/trick/service"
 	"go-service/pkg/response"
@@ -98,6 +99,11 @@ func (h *CategoryHandler) DeleteCategory(w http.ResponseWriter, r *http.Request)
 	}
 
 	if err := h.service.DeleteCategory(id); err != nil {
+		// 有効な行から参照されている場合は 409
+		if errors.Is(err, trick.ErrInUse) {
+			response.Conflict(w, "equipment category is in use")
+			return
+		}
 		response.NotFound(w, err.Error())
 		return
 	}

@@ -97,6 +97,9 @@ export const Default: Story = {
     hasSearched: false,
     isSearching: false,
     onSearch: fn(),
+    deletingId: null,
+    deleteError: '',
+    onDelete: fn(),
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -159,5 +162,42 @@ export const WithResults: Story = {
 
     const link = canvas.getByRole('link', { name: 'エレベーター' });
     expect(link).toHaveAttribute('href', '/trick-master/tricks/1');
+  },
+};
+
+export const DeleteTrick: Story = {
+  args: {
+    ...WithResults.args,
+  },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
+
+    await userEvent.click(canvas.getByRole('button', { name: '削除' }));
+    expect(args.onDelete).toHaveBeenCalledWith(RESULTS[0]);
+  },
+};
+
+export const Deleting: Story = {
+  args: {
+    ...WithResults.args,
+    deletingId: 1,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    expect(canvas.getByRole('button', { name: '削除中...' })).toBeDisabled();
+  },
+};
+
+export const DeleteFailed: Story = {
+  args: {
+    ...WithResults.args,
+    deleteError: 'Trick not found',
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    expect(canvas.getByText('Trick not found')).toBeInTheDocument();
+    expect(canvas.getByRole('cell', { name: 'エレベーター' })).toBeInTheDocument();
   },
 };

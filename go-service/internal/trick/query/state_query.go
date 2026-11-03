@@ -52,3 +52,11 @@ func (q *StateQuery) SoftDelete() string {
 		WHERE id = ?
 	`
 }
+
+// CountByEquipmentID 指定した道具を参照する有効な状態件数SQL
+func (q *StateQuery) CountByEquipmentID() string {
+	return `
+		SELECT COUNT(*) FROM state_master
+		WHERE equipment_id = ? AND is_invalid = 0
+	`
+}

@@ -51,3 +51,11 @@ func (q *CategoryQuery) SoftDelete() string {
 		WHERE id = ?
 	`
 }
+
+// CountByEquipmentID 指定した道具を参照する有効なカテゴリ件数SQL
+func (q *CategoryQuery) CountByEquipmentID() string {
+	return `
+		SELECT COUNT(*) FROM equipment_category_master
+		WHERE equipment_id = ? AND is_invalid = 0
+	`
+}

@@ -1,0 +1,82 @@
+@use '@/styles/variables';
+
+.chart {
+  --bar-color: #2a78d6;
+  --track-color: #f0efec;
+  --text-secondary: #52514e;
+  --flag-color: #b26b00;
+
+  margin: 0;
+
+  @media (prefers-color-scheme: dark) {
+    --bar-color: #3987e5;
+    --track-color: #383835;
+    --text-secondary: #c3c2b7;
+    --flag-color: #fab219;
+  }
+}
+
+.title {
+  margin-bottom: variables.$spacing_1;
+  font-weight: 700;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: variables.$spacing_1;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(96px, 200px) 1fr 48px;
+  align-items: center;
+  column-gap: variables.$spacing_2;
+}
+
+.highlighted .label {
+  font-weight: 700;
+}
+
+.label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: variables.$spacing_1;
+  overflow-wrap: anywhere;
+}
+
+.flag {
+  padding: 0 variables.$spacing_1;
+  border: 1px solid var(--flag-color);
+  border-radius: 4px;
+  color: var(--flag-color);
+  font-size: 0.75rem;
+}
+
+.track {
+  height: 16px;
+  background-color: var(--track-color);
+}
+
+.bar {
+  display: block;
+  height: 100%;
+  border-radius: 0 4px 4px 0;
+  background-color: var(--bar-color);
+  transition: width 0.4s ease-out;
+}
+
+.value {
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.note {
+  grid-column: 2 / 4;
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+}

@@ -58,6 +58,36 @@ func (s *stubTrickRepository) Delete(id int) error {
 	return nil
 }
 
+func (s *stubTrickRepository) CountByEquipmentID(equipmentID int) (int, error) {
+	count := 0
+	for _, t := range s.items {
+		if t.EquipmentID == equipmentID {
+			count++
+		}
+	}
+	return count, nil
+}
+
+func (s *stubTrickRepository) CountByCategoryID(categoryID int) (int, error) {
+	count := 0
+	for _, t := range s.items {
+		if t.CategoryID == categoryID {
+			count++
+		}
+	}
+	return count, nil
+}
+
+func (s *stubTrickRepository) CountByStateID(stateID int) (int, error) {
+	count := 0
+	for _, t := range s.items {
+		if t.StartStateID == stateID || t.EndStateID == stateID {
+			count++
+		}
+	}
+	return count, nil
+}
+
 // テスト用にequipment_id=1, category_id=1（equipment_id=1所属）,
 // state id=1,2（equipment_id=1所属）を事前登録した状態を組み立てるヘルパー
 func newTrickHandlerForTest() (*TrickHandler, *stubTrickRepository) {

@@ -11,7 +11,8 @@ export const useEquipmentForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const handleSubmit = async () => {
+  // 登録に成功したら true を返す（呼び出し側で一覧の再取得などに使う）
+  const handleSubmit = async (): Promise<boolean> => {
     setIsSubmitting(true);
     setErrors({});
     setIsSuccess(false);
@@ -21,13 +22,14 @@ export const useEquipmentForm = () => {
     if (!result.success && result.errors) {
       setErrors(result.errors);
       setIsSubmitting(false);
-      return;
+      return false;
     }
 
     setIsSubmitting(false);
     setIsSuccess(true);
     setName('');
     router.refresh();
+    return true;
   };
 
   return {

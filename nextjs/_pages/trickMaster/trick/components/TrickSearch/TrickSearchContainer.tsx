@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { deleteTrick } from '../../actions/deleteTrick';
 import { useEquipmentScopedOptions } from '../../hooks/useEquipmentScopedOptions';
 import { TrickSearch } from './TrickSearch';
 import type { EquipmentOption, TrickDetailResponse } from '../../../types';
@@ -17,6 +18,8 @@ export const TrickSearchContainer: React.FC<TrickSearchContainerProps> = ({ equi
   const [results, setResults] = useState<TrickDetailResponse[]>([]);
   const [hasSearched, setHasSearched] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
+  const [deletingId, setDeletingId] = useState<number | null>(null);
+  const [deleteError, setDeleteError] = useState('');
 
   const { categoryOptions, stateOptions } = useEquipmentScopedOptions(equipmentId);
 
@@ -47,6 +50,21 @@ export const TrickSearchContainer: React.FC<TrickSearchContainerProps> = ({ equi
     }
   };
 
+  const handleDelete = async (trick: TrickDetailResponse) => {
+    if (!window.confirm(`「${trick.name}」を削除しますか？`)) return;
+
+    setDeletingId(trick.id);
+    setDeleteError('');
+
+    const result = await deleteTrick(trick.id);
+    if (result.success) {
+      setResults((prev) => prev.filter((item) => item.id !== trick.id));
+    } else {
+      setDeleteError(result.error ?? '');
+    }
+    setDeletingId(null);
+  };
+
   return (
     <TrickSearch
       equipmentOptions={equipmentOptions}
@@ -64,6 +82,9 @@ export const TrickSearchContainer: React.FC<TrickSearchContainerProps> = ({ equi
       hasSearched={hasSearched}
       isSearching={isSearching}
       onSearch={handleSearch}
+      deletingId={deletingId}
+      deleteError={deleteError}
+      onDelete={handleDelete}
     />
   );
 };

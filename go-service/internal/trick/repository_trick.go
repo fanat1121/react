@@ -15,6 +15,12 @@ type TrickRepository interface {
 	GetByID(id int) (*Trick, error)
 	GetAll() ([]*Trick, error)
 	Delete(id int) error
+	// CountByEquipmentID 指定した道具を参照する有効な技件数を取得
+	CountByEquipmentID(equipmentID int) (int, error)
+	// CountByCategoryID 指定したカテゴリを参照する有効な技件数を取得
+	CountByCategoryID(categoryID int) (int, error)
+	// CountByStateID 指定した状態を開始・終了のいずれかで参照する有効な技件数を取得
+	CountByStateID(stateID int) (int, error)
 }
 
 // MySQLTrickRepository MySQL実装
@@ -118,4 +124,31 @@ func (r *MySQLTrickRepository) Delete(id int) error {
 		return errors.New("trick not found")
 	}
 	return nil
+}
+
+// CountByEquipmentID 指定した道具を参照する有効な技件数を取得
+func (r *MySQLTrickRepository) CountByEquipmentID(equipmentID int) (int, error) {
+	var count int
+	if err := r.db.QueryRow(r.query.CountByEquipmentID(), equipmentID).Scan(&count); err != nil {
+		return 0, err
+	}
+	return count, nil
+}
+
+// CountByCategoryID 指定したカテゴリを参照する有効な技件数を取得
+func (r *MySQLTrickRepository) CountByCategoryID(categoryID int) (int, error) {
+	var count int
+	if err := r.db.QueryRow(r.query.CountByCategoryID(), categoryID).Scan(&count); err != nil {
+		return 0, err
+	}
+	return count, nil
+}
+
+// CountByStateID 指定した状態を開始・終了のいずれかで参照する有効な技件数を取得
+func (r *MySQLTrickRepository) CountByStateID(stateID int) (int, error) {
+	var count int
+	if err := r.db.QueryRow(r.query.CountByStateID(), stateID, stateID).Scan(&count); err != nil {
+		return 0, err
+	}
+	return count, nil
 }

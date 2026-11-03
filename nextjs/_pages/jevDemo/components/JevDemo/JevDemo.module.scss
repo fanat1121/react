@@ -1,0 +1,74 @@
+@use '@/styles/variables';
+
+.demo {
+  --text-secondary: #52514e;
+  --border-color: #ddd;
+  --critical-color: #d32f2f;
+
+  display: flex;
+  flex-direction: column;
+  gap: variables.$spacing_5;
+  max-width: 720px;
+
+  @media (prefers-color-scheme: dark) {
+    --text-secondary: #c3c2b7;
+    --border-color: #444;
+    --critical-color: #e66767;
+  }
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: variables.$spacing_2;
+}
+
+.heading {
+  display: flex;
+  align-items: center;
+  gap: variables.$spacing_2;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.fileLabel {
+  display: flex;
+  flex-direction: column;
+  gap: variables.$spacing_1;
+}
+
+.video {
+  width: 100%;
+  max-height: 400px;
+  background-color: #000;
+}
+
+.caption,
+.error {
+  margin: 0;
+}
+
+.caption {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.error {
+  color: var(--critical-color);
+}
+
+.frames {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: variables.$spacing_1;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  img {
+    display: block;
+    width: 100%;
+    border: 1px solid var(--border-color);
+  }
+}
+

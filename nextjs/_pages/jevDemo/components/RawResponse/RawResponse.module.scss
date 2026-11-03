@@ -1,0 +1,29 @@
+@use '@/styles/variables';
+
+.rawResponse {
+  --code-background: #f0efec;
+
+  display: flex;
+  flex-direction: column;
+  gap: variables.$spacing_1;
+  min-width: 0;
+
+  @media (prefers-color-scheme: dark) {
+    --code-background: #383835;
+  }
+}
+
+.heading {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.raw {
+  margin: 0;
+  padding: variables.$spacing_2;
+  overflow-x: auto;
+  background: var(--code-background);
+  border-radius: 4px;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}

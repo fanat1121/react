@@ -1,5 +1,6 @@
 'use server';
 
+import { canEditTrickMaster, UNAUTHORIZED_MESSAGE } from '../../auth/canEditTrickMaster';
 import { stateSchema } from '../schemas/schema';
 import type { StateFormData } from '../schemas/schema';
 
@@ -17,6 +18,10 @@ export type RegisterStateResult = {
 };
 
 export async function registerState(formData: StateFormData): Promise<RegisterStateResult> {
+  if (!(await canEditTrickMaster())) {
+    return { success: false, errors: { _form: [UNAUTHORIZED_MESSAGE] } };
+  }
+
   const result = stateSchema.safeParse(formData);
 
   if (!result.success) {
