@@ -15,6 +15,8 @@ const BUTTON_TEXT = {
 
 export const HeaderComponent: React.FC = () => {
   const { data: session } = useSession();
+  // 設定エラー時などは user を持たないオブジェクトが返るため、user の有無でログイン判定する
+  const user = session?.user;
 
   return (
     <header className={styles.headerContainerWrapper}>
@@ -24,9 +26,9 @@ export const HeaderComponent: React.FC = () => {
           <div className={styles.leftSection}>
             <Logo />
             <div className={styles.userStatus}>
-              {session ? (
+              {user ? (
                 <p className={styles.userInfo}>
-                  ようこそ、<span className={styles.userName}>{session.user?.name}</span>さん
+                  ようこそ、<span className={styles.userName}>{user.name}</span>さん
                 </p>
               ) : (
                 <p className={styles.userInfo}>ゲストユーザー</p>
@@ -38,7 +40,7 @@ export const HeaderComponent: React.FC = () => {
           <div className={styles.rightSection}>
             <HeaderMenu items={MENU_ITEMS} />
             <div className={styles.authButtons}>
-              {session ? (
+              {user ? (
                 <Button
                   variant={BUTTON_VARIANTS.SECONDARY}
                   size={BUTTON_SIZES.SMALL}
