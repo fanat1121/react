@@ -1,0 +1,17 @@
+@use '@/styles/variables';
+
+// 名言カードの最小幅。これより狭くなると画像カードが下に回り込む
+$quote_min_width: 320px;
+
+.topQuoteSection {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: variables.$spacing_2;
+  margin: variables.$spacing_3 0;
+}
+
+.quote {
+  flex: 1 1 $quote_min_width;
+  min-width: 0;
+}
