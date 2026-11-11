@@ -1,4 +1,9 @@
 import React from 'react';
+import styles from './QuoteView.module.scss';
+
+const TITLE = '本日の名言';
+const AUTHOR_FALLBACK = '作者不明';
+const ERROR_PREFIX = '名言を取得できませんでした: ';
 
 // 名言のデータ型
 export interface QuoteData {
@@ -6,17 +11,31 @@ export interface QuoteData {
   auther: string;
 }
 
+type QuoteViewProps = {
+  quote: QuoteData | null;
+  // quote が null のときに出すメッセージ
+  errorMessage?: string;
+};
+
 // ----------------------------------
 // UIコンポーネント
+// 取得に失敗したときも同じカードの中にメッセージを出し、成功時と余白を揃える
 // ----------------------------------
-export const QuoteView: React.FC<{ quote: QuoteData }> = ({ quote }) => {
+export const QuoteView: React.FC<QuoteViewProps> = ({ quote, errorMessage }) => {
   return (
-    <div style={{ border: '1px solid #ddd', padding: '15px', margin: 0, borderRadius: '5px', backgroundColor: '#f9f9f9' }}>
-      <h4>本日の名言</h4>
-      <blockquote style={{ margin: 0 }}>
-        <p style={{ fontStyle: 'italic' }}>&quot;{quote.meigen}&quot;</p>
-        <footer style={{ textAlign: 'right', marginTop: '10px' }}>— {quote.auther || '作者不明'}</footer>
-      </blockquote>
-    </div>
+    <section className={styles.quoteView}>
+      <h4 className={styles.title}>{TITLE}</h4>
+      {quote ? (
+        <blockquote className={styles.blockquote}>
+          <p className={styles.text}>&quot;{quote.meigen}&quot;</p>
+          <footer className={styles.author}>— {quote.auther || AUTHOR_FALLBACK}</footer>
+        </blockquote>
+      ) : (
+        <p className={styles.error} role="alert">
+          {ERROR_PREFIX}
+          {errorMessage}
+        </p>
+      )}
+    </section>
   );
 };

@@ -6,7 +6,7 @@ import { NEKOS_API_BASE_URL, NEKOS_RANDOM_IMAGE_PATH, type NekosRating } from '.
  */
 export const buildRandomImageUrl = (ratings: readonly NekosRating[]): string => {
   const params = new URLSearchParams();
-  [...new Set(ratings)].forEach((rating) => params.append('rating', rating));
+  ratings.forEach((rating) => params.append('rating', rating));
   const query = params.toString();
   return `${NEKOS_API_BASE_URL}${NEKOS_RANDOM_IMAGE_PATH}${query ? `?${query}` : ''}`;
 };

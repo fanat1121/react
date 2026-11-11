@@ -1,9 +1,6 @@
-import { DISPLAY_RATINGS, type NekosRating } from '../const/nekosApi';
-import { nekoImageSchema, type NekoImageData } from '../schemas/schema';
+import { DISPLAY_RATINGS, REQUEST_TIMEOUT_MS, type NekosRating } from '../const/nekosApi';
+import { nekoImageSchema, type NekoImageData } from '../schemas/nekoImage';
 import { buildRandomImageUrl } from '../utils/buildRandomImageUrl';
-import { isDisplayableImage } from '../utils/isDisplayableImage';
-
-const REQUEST_TIMEOUT_MS = 5000;
 
 /**
  * 表示してよい年齢区分のランダム画像を1枚取得する。
@@ -26,7 +23,8 @@ export const fetchRandomNekoImage = async (
       console.error('[nekoImage] unexpected response shape', parsed.error.issues);
       return null;
     }
-    if (!isDisplayableImage(parsed.data, ratings)) {
+    // クエリで絞っていても、返ってきた rating を表示対象と突き合わせて二重に確認する
+    if (!ratings.includes(parsed.data.rating)) {
       console.error(`[nekoImage] rating ${parsed.data.rating} is not allowed`);
       return null;
     }

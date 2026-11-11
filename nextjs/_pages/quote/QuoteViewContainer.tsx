@@ -31,9 +31,5 @@ export const QuoteViewContainer = async () => {
     console.error(error);
   }
 
-  if (quoteData) {
-    return <QuoteView quote={quoteData} />;
-  } else {
-    return <p>エラーが発生しました: {error}</p>;
-  }
+  return <QuoteView quote={quoteData} errorMessage={error ?? undefined} />;
 };

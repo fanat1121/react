@@ -6,7 +6,7 @@ const SAMPLE_IMAGE_URL =
   'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="240" height="240"><rect width="240" height="240" fill="%23cbd5e1"/></svg>';
 
 const meta = {
-  title: 'NekoImage/NekoImage',
+  title: 'Home/NekoImage',
   component: NekoImage,
   parameters: { layout: 'padded' },
   tags: ['autodocs'],

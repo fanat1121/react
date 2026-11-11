@@ -12,10 +12,6 @@ describe('buildRandomImageUrl', () => {
     );
   });
 
-  it('重複した rating は1つにまとめる', () => {
-    expect(buildRandomImageUrl(['safe', 'safe'])).toBe('https://api.nekosapi.com/v5/images/random?rating=safe');
-  });
-
   it('rating が空ならクエリを付けない', () => {
     expect(buildRandomImageUrl([])).toBe('https://api.nekosapi.com/v5/images/random');
   });

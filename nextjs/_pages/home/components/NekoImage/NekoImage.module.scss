@@ -1,0 +1,37 @@
+@use '@/styles/mixins';
+@use '@/styles/variables';
+
+// カード自体が横並びの1要素になる。取得できなかったときはカードごと出さないので、空の列が残らない。
+// 幅 = 画像の一辺 + 左右の余白 + 左右の枠線（box-sizing: border-box）
+.nekoImage {
+  @include mixins.card;
+  margin: 0;
+  flex: 0 1 calc(var(--neko-image-size) + 2 * #{variables.$spacing_2} + 2 * #{variables.$card_border_width});
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: variables.$spacing_1;
+}
+
+.title {
+  margin: 0;
+  align-self: flex-start;
+}
+
+.image {
+  width: 100%;
+  max-width: var(--neko-image-size);
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: variables.$card_radius;
+}
+
+.caption {
+  display: flex;
+  flex-wrap: wrap;
+  gap: variables.$spacing_1;
+  font-size: 0.8rem;
+  color: variables.$card_sub_text_color;
+}
