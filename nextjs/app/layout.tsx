@@ -15,7 +15,9 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await auth();
+  // 設定エラー時は user を持たない { message } が返るため、未ログイン扱い(null)に正規化する
+  const rawSession = await auth();
+  const session = rawSession?.user ? rawSession : null;
 
   return (
     <html lang="ja">
