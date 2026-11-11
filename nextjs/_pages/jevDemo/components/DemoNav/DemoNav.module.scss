@@ -1,0 +1,35 @@
+@use '@/styles/variables';
+
+.list {
+  --link-border: #d6d5d0;
+  --current-background: #2a78d6;
+  --current-text: #fff;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: variables.$spacing_1;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @media (prefers-color-scheme: dark) {
+    --link-border: #4a4a46;
+    --current-background: #3987e5;
+  }
+}
+
+.link {
+  display: inline-block;
+  padding: 0 variables.$spacing_2;
+  border: 1px solid var(--link-border);
+  border-radius: 4px;
+  line-height: 2;
+  text-decoration: none;
+}
+
+.current {
+  border-color: var(--current-background);
+  background-color: var(--current-background);
+  color: var(--current-text);
+  font-weight: 700;
+}

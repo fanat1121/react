@@ -32,3 +32,13 @@ export type TrickDetailResponse = {
   created_at: string;
   updated_at: string;
 };
+
+export type MasterListItem = {
+  id: number;
+  name: string;
+};
+
+export type DeleteMasterItemResult = {
+  success: boolean;
+  error?: string;
+};

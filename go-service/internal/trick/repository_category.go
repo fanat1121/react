@@ -3,6 +3,7 @@ package trick
 import (
 	"database/sql"
 	"errors"
+	"fmt"
 	"go-service/internal/trick/query"
 	"go-service/pkg/database"
 	"time"
@@ -14,6 +15,8 @@ type EquipmentCategoryRepository interface {
 	GetByID(id int) (*EquipmentCategory, error)
 	GetAll() ([]*EquipmentCategory, error)
 	Delete(id int) error
+	// CountByEquipmentID 指定した道具を参照する有効なカテゴリ件数を取得
+	CountByEquipmentID(equipmentID int) (int, error)
 }
 
 // MySQLEquipmentCategoryRepository MySQL実装
@@ -63,7 +66,7 @@ func (r *MySQLEquipmentCategoryRepository) GetByID(id int) (*EquipmentCategory, 
 	c := &EquipmentCategory{}
 	err := r.db.QueryRow(r.query.SelectByID(), id).Scan(&c.ID, &c.EquipmentID, &c.Name, &c.IsInvalid, &c.CreatedAt, &c.UpdatedAt)
 	if err == sql.ErrNoRows {
-		return nil, errors.New("equipment category not found")
+		return nil, fmt.Errorf("equipment category %w", ErrNotFound)
 	}
 	if err != nil {
 		return nil, err
@@ -101,7 +104,16 @@ func (r *MySQLEquipmentCategoryRepository) Delete(id int) error {
 		return err
 	}
 	if affected == 0 {
-		return errors.New("equipment category not found")
+		return fmt.Errorf("equipment category %w", ErrNotFound)
 	}
 	return nil
+}
+
+// CountByEquipmentID 指定した道具を参照する有効なカテゴリ件数を取得
+func (r *MySQLEquipmentCategoryRepository) CountByEquipmentID(equipmentID int) (int, error) {
+	var count int
+	if err := r.db.QueryRow(r.query.CountByEquipmentID(), equipmentID).Scan(&count); err != nil {
+		return 0, err
+	}
+	return count, nil
 }

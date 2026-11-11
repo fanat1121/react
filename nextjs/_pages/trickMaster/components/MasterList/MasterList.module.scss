@@ -1,0 +1,44 @@
+@use '@/styles/variables';
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: variables.$spacing_1;
+  max-width: 480px;
+  margin-top: variables.$spacing_4;
+}
+
+.title {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.message {
+  color: #666;
+}
+
+.errorMessage {
+  color: #d32f2f;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: variables.$spacing_1 variables.$spacing_2;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+  }
+
+  th {
+    font-weight: 700;
+    background-color: #f5f5f5;
+  }
+}
+
+.actionCell {
+  width: 1%;
+  white-space: nowrap;
+}

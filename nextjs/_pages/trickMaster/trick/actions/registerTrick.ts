@@ -1,5 +1,6 @@
 'use server';
 
+import { canEditTrickMaster, UNAUTHORIZED_MESSAGE } from '../../auth/canEditTrickMaster';
 import { trickSchema } from '../schemas/schema';
 import type { TrickFormData } from '../schemas/schema';
 
@@ -21,6 +22,10 @@ export type RegisterTrickResult = {
 };
 
 export async function registerTrick(formData: TrickFormData): Promise<RegisterTrickResult> {
+  if (!(await canEditTrickMaster())) {
+    return { success: false, errors: { _form: [UNAUTHORIZED_MESSAGE] } };
+  }
+
   const result = trickSchema.safeParse(formData);
 
   if (!result.success) {

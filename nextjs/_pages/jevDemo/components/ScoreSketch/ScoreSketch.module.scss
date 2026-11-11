@@ -1,0 +1,50 @@
+@use '@/styles/variables';
+
+.scale {
+  --track-color: #f0efec;
+  --marker-color: #2a78d6;
+  --text-secondary: #52514e;
+
+  margin: 0;
+
+  @media (prefers-color-scheme: dark) {
+    --track-color: #383835;
+    --marker-color: #3987e5;
+    --text-secondary: #c3c2b7;
+  }
+}
+
+.scaleTitle {
+  margin-bottom: variables.$spacing_1;
+  font-weight: 700;
+}
+
+.track {
+  position: relative;
+  height: 8px;
+  margin: variables.$spacing_1 variables.$spacing_1 0;
+  border-radius: 4px;
+  background-color: var(--track-color);
+}
+
+.marker {
+  position: absolute;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: var(--marker-color);
+  transform: translate(-50%, -50%);
+  transition: left 0.4s ease-out;
+}
+
+.ticks {
+  display: flex;
+  justify-content: space-between;
+  margin: variables.$spacing_1 0 0;
+  padding: 0;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+  list-style: none;
+}

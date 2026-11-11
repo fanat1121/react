@@ -17,6 +17,7 @@
     "sb-pc": "storybook dev -p 6006"
   },
   "dependencies": {
+    "@typesafe-ai/sdk": "^0.7.0",
     "clsx": "^2.1.1",
     "ioredis": "^5.8.2",
     "next": "15.1.11",

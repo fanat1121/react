@@ -60,3 +60,27 @@ func (q *TrickQuery) SoftDelete() string {
 		WHERE id = ?
 	`
 }
+
+// CountByEquipmentID 指定した道具を参照する有効な技件数SQL
+func (q *TrickQuery) CountByEquipmentID() string {
+	return `
+		SELECT COUNT(*) FROM trick_master
+		WHERE equipment_id = ? AND is_invalid = 0
+	`
+}
+
+// CountByCategoryID 指定したカテゴリを参照する有効な技件数SQL
+func (q *TrickQuery) CountByCategoryID() string {
+	return `
+		SELECT COUNT(*) FROM trick_master
+		WHERE category_id = ? AND is_invalid = 0
+	`
+}
+
+// CountByStateID 指定した状態を開始・終了のいずれかで参照する有効な技件数SQL
+func (q *TrickQuery) CountByStateID() string {
+	return `
+		SELECT COUNT(*) FROM trick_master
+		WHERE (start_state_id = ? OR end_state_id = ?) AND is_invalid = 0
+	`
+}

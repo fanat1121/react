@@ -3,9 +3,11 @@ package handler
 
 import (
 	"encoding/json"
+	"errors"
 	"go-service/internal/trick"
 	"go-service/internal/trick/service"
 	"go-service/pkg/response"
+	"log"
 	"net/http"
 	"strconv"
 
@@ -99,7 +101,18 @@ func (h *StateHandler) DeleteState(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if err := h.service.DeleteState(id); err != nil {
-		response.NotFound(w, err.Error())
+		// 有効な行から参照されている場合は 409
+		if errors.Is(err, trick.ErrInUse) {
+			response.Conflict(w, "state is in use")
+			return
+		}
+		if errors.Is(err, trick.ErrNotFound) {
+			response.NotFound(w, err.Error())
+			return
+		}
+		// DB 障害などはドライバのエラー文を返さず 500 にする
+		log.Printf("delete failed: %v", err)
+		response.InternalServerError(w, "Internal server error")
 		return
 	}
 	response.Success(w, map[string]string{"message": "State deleted successfully"})

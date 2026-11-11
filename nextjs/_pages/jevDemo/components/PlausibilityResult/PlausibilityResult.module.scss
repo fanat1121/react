@@ -1,0 +1,46 @@
+@use '@/styles/variables';
+
+.result {
+  --text-secondary: #52514e;
+  --warning-color: #b26b00;
+  --critical-color: #d32f2f;
+
+  display: flex;
+  flex-direction: column;
+  gap: variables.$spacing_4;
+
+  @media (prefers-color-scheme: dark) {
+    --text-secondary: #c3c2b7;
+    --warning-color: #fab219;
+    --critical-color: #e66767;
+  }
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  gap: variables.$spacing_1;
+}
+
+.hero p {
+  margin: 0;
+}
+
+.heroLabel {
+  color: var(--text-secondary);
+}
+
+.heroValue {
+  font-size: 3rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.gated {
+  color: var(--critical-color);
+}
+
+.uncertain {
+  color: var(--warning-color);
+}

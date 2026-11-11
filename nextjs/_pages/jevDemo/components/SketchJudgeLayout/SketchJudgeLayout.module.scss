@@ -1,0 +1,58 @@
+@use '@/styles/variables';
+
+.layout {
+  --text-secondary: #52514e;
+  --critical-color: #d32f2f;
+
+  display: flex;
+  flex-direction: column;
+  gap: variables.$spacing_5;
+  max-width: 720px;
+
+  @media (prefers-color-scheme: dark) {
+    --text-secondary: #c3c2b7;
+    --critical-color: #e66767;
+  }
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: variables.$spacing_2;
+}
+
+.heading {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.actions {
+  display: flex;
+  gap: variables.$spacing_2;
+}
+
+.error {
+  margin: 0;
+  color: var(--critical-color);
+}
+
+.hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: variables.$spacing_1;
+
+  p {
+    margin: 0;
+  }
+}
+
+.heroValue {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.heroLabel {
+  color: var(--text-secondary);
+}

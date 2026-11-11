@@ -21,6 +21,9 @@ type TrickSearchProps = {
   hasSearched: boolean;
   isSearching: boolean;
   onSearch: () => void;
+  deletingId: number | null;
+  deleteError: string;
+  onDelete: (trick: TrickDetailResponse) => void;
 };
 
 export const TrickSearch: React.FC<TrickSearchProps> = ({
@@ -39,6 +42,9 @@ export const TrickSearch: React.FC<TrickSearchProps> = ({
   hasSearched,
   isSearching,
   onSearch,
+  deletingId,
+  deleteError,
+  onDelete,
 }) => {
   return (
     <div className={styles.search}>
@@ -83,6 +89,8 @@ export const TrickSearch: React.FC<TrickSearchProps> = ({
         <p className={styles.emptyMessage}>該当する技が見つかりませんでした</p>
       )}
 
+      {deleteError && <p className={styles.errorMessage}>{deleteError}</p>}
+
       {results.length > 0 && (
         <table className={styles.table}>
           <thead>
@@ -93,6 +101,7 @@ export const TrickSearch: React.FC<TrickSearchProps> = ({
               <th>開始状態</th>
               <th>終了状態</th>
               <th>想定時間(秒)</th>
+              <th />
             </tr>
           </thead>
           <tbody>
@@ -106,6 +115,16 @@ export const TrickSearch: React.FC<TrickSearchProps> = ({
                 <td>{item.start_state_name}</td>
                 <td>{item.end_state_name}</td>
                 <td>{item.estimated_duration_seconds}</td>
+                <td>
+                  <Button
+                    variant="outline"
+                    size="small"
+                    onClick={() => onDelete(item)}
+                    disabled={deletingId !== null}
+                  >
+                    {deletingId === item.id ? '削除中...' : '削除'}
+                  </Button>
+                </td>
               </tr>
             ))}
           </tbody>

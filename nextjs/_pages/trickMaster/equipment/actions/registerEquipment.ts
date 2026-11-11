@@ -1,5 +1,6 @@
 'use server';
 
+import { canEditTrickMaster, UNAUTHORIZED_MESSAGE } from '../../auth/canEditTrickMaster';
 import { equipmentSchema } from '../schemas/schema';
 import type { EquipmentFormData } from '../schemas/schema';
 
@@ -14,6 +15,10 @@ export type RegisterEquipmentResult = {
 };
 
 export async function registerEquipment(formData: EquipmentFormData): Promise<RegisterEquipmentResult> {
+  if (!(await canEditTrickMaster())) {
+    return { success: false, errors: { _form: [UNAUTHORIZED_MESSAGE] } };
+  }
+
   const result = equipmentSchema.safeParse(formData);
 
   if (!result.success) {
