@@ -1,0 +1,19 @@
+@use '@/styles/variables';
+
+.topQuoteSection {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: variables.$spacing_2;
+  margin: variables.$spacing_3 0;
+}
+
+.quote {
+  flex: 1 1 320px;
+  min-width: 0;
+}
+
+.image {
+  flex: 0 1 272px;
+  min-width: 0;
+}
