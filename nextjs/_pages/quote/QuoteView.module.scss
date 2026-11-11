@@ -1,0 +1,30 @@
+@use '@/styles/mixins';
+@use '@/styles/variables';
+
+.quoteView {
+  @include mixins.card;
+  margin: 0;
+}
+
+.title {
+  margin: 0 0 variables.$spacing_1;
+}
+
+.blockquote {
+  margin: 0;
+}
+
+.text {
+  margin: 0;
+  font-style: italic;
+}
+
+.author {
+  margin-top: variables.$spacing_1;
+  text-align: right;
+}
+
+.error {
+  margin: 0;
+  color: variables.$card_sub_text_color;
+}

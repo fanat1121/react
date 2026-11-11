@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import React from 'react';
 import Link from 'next/link';
-import { QuoteViewContainer } from '@/_pages/quote';
+import { TopQuoteSectionContainer } from '@/_pages/home';
 
 export const metadata: Metadata = {
   title: 'Bold Practice',
@@ -17,7 +17,7 @@ const Home = () => {
       <div id="content-wrapper">
         <main>
           <div id="inner">
-          <QuoteViewContainer />
+          <TopQuoteSectionContainer />
             <h2>記事ページ見出し・大</h2>
             <p>文章あれこれ</p>
             <h3>記事ページ見出し・中</h3>

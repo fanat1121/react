@@ -1,0 +1,10 @@
+@use 'variables';
+
+// 並べて使うカードの共通の見た目。box-sizing を border-box にして、幅の指定に余白と枠線を含める
+@mixin card {
+  box-sizing: border-box;
+  padding: variables.$spacing_2;
+  border: variables.$card_border_width solid variables.$card_border_color;
+  border-radius: variables.$card_radius;
+  background-color: variables.$card_bg;
+}
