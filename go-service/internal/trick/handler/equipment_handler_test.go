@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"go-service/internal/trick"
 	"go-service/internal/trick/service"
 	"net/http/httptest"
@@ -37,7 +38,7 @@ func (s *stubEquipmentRepository) Create(e *trick.Equipment) error {
 func (s *stubEquipmentRepository) GetByID(id int) (*trick.Equipment, error) {
 	e, ok := s.items[id]
 	if !ok {
-		return nil, errors.New("equipment not found")
+		return nil, fmt.Errorf("equipment %w", trick.ErrNotFound)
 	}
 	return e, nil
 }
@@ -52,7 +53,7 @@ func (s *stubEquipmentRepository) GetAll() ([]*trick.Equipment, error) {
 
 func (s *stubEquipmentRepository) Delete(id int) error {
 	if _, ok := s.items[id]; !ok {
-		return errors.New("equipment not found")
+		return fmt.Errorf("equipment %w", trick.ErrNotFound)
 	}
 	delete(s.items, id)
 	return nil
@@ -187,5 +188,22 @@ func TestDeleteEquipment_ReferencedOnlyByOtherEquipment(t *testing.T) {
 
 	if w.Code != 200 {
 		t.Fatalf("expected status 200, got %d, body: %s", w.Code, w.Body.String())
+	}
+}
+
+func TestDeleteEquipment_DBError(t *testing.T) {
+	h, repo, _, _, trickRepo := newEquipmentHandlerForDeleteTest()
+	trickRepo.countErr = errors.New("db connection refused")
+
+	w := doDeleteEquipment(h, "1")
+
+	if w.Code != 500 {
+		t.Fatalf("expected status 500, got %d, body: %s", w.Code, w.Body.String())
+	}
+	if bytes.Contains(w.Body.Bytes(), []byte("db connection refused")) {
+		t.Fatalf("expected driver error not to be exposed, body: %s", w.Body.String())
+	}
+	if _, ok := repo.items[1]; !ok {
+		t.Fatalf("expected equipment not to be deleted")
 	}
 }

@@ -16,6 +16,8 @@ import (
 type stubTrickRepository struct {
 	items  map[int]*trick.Trick
 	nextID int
+	// countErr が設定されていると CountBy* はこのエラーを返す（DB 障害の再現用）
+	countErr error
 }
 
 func newStubTrickRepository() *stubTrickRepository {
@@ -59,6 +61,9 @@ func (s *stubTrickRepository) Delete(id int) error {
 }
 
 func (s *stubTrickRepository) CountByEquipmentID(equipmentID int) (int, error) {
+	if s.countErr != nil {
+		return 0, s.countErr
+	}
 	count := 0
 	for _, t := range s.items {
 		if t.EquipmentID == equipmentID {
@@ -69,6 +74,9 @@ func (s *stubTrickRepository) CountByEquipmentID(equipmentID int) (int, error) {
 }
 
 func (s *stubTrickRepository) CountByCategoryID(categoryID int) (int, error) {
+	if s.countErr != nil {
+		return 0, s.countErr
+	}
 	count := 0
 	for _, t := range s.items {
 		if t.CategoryID == categoryID {
@@ -79,6 +87,9 @@ func (s *stubTrickRepository) CountByCategoryID(categoryID int) (int, error) {
 }
 
 func (s *stubTrickRepository) CountByStateID(stateID int) (int, error) {
+	if s.countErr != nil {
+		return 0, s.countErr
+	}
 	count := 0
 	for _, t := range s.items {
 		if t.StartStateID == stateID || t.EndStateID == stateID {

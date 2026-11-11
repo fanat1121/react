@@ -6,6 +6,8 @@ import { useEquipmentScopedOptions } from '../../hooks/useEquipmentScopedOptions
 import { TrickSearch } from './TrickSearch';
 import type { EquipmentOption, TrickDetailResponse } from '../../../types';
 
+const DELETE_FAILED_MESSAGE = '削除に失敗しました。時間をおいて再度お試しください';
+
 type TrickSearchContainerProps = {
   equipmentOptions: EquipmentOption[];
 };
@@ -56,13 +58,19 @@ export const TrickSearchContainer: React.FC<TrickSearchContainerProps> = ({ equi
     setDeletingId(trick.id);
     setDeleteError('');
 
-    const result = await deleteTrick(trick.id);
-    if (result.success) {
-      setResults((prev) => prev.filter((item) => item.id !== trick.id));
-    } else {
-      setDeleteError(result.error ?? '');
+    try {
+      const result = await deleteTrick(trick.id);
+      if (result.success) {
+        setResults((prev) => prev.filter((item) => item.id !== trick.id));
+      } else {
+        setDeleteError(result.error ?? '');
+      }
+    } catch {
+      // 通信断・デプロイによる Action ID 変更などで Server Action 自体が reject した場合
+      setDeleteError(DELETE_FAILED_MESSAGE);
+    } finally {
+      setDeletingId(null);
     }
-    setDeletingId(null);
   };
 
   return (

@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"go-service/internal/trick"
 	"go-service/internal/trick/service"
 	"net/http/httptest"
@@ -36,7 +37,7 @@ func (s *stubCategoryRepository) Create(c *trick.EquipmentCategory) error {
 func (s *stubCategoryRepository) GetByID(id int) (*trick.EquipmentCategory, error) {
 	c, ok := s.items[id]
 	if !ok {
-		return nil, errors.New("equipment category not found")
+		return nil, fmt.Errorf("equipment category %w", trick.ErrNotFound)
 	}
 	return c, nil
 }
@@ -51,7 +52,7 @@ func (s *stubCategoryRepository) GetAll() ([]*trick.EquipmentCategory, error) {
 
 func (s *stubCategoryRepository) Delete(id int) error {
 	if _, ok := s.items[id]; !ok {
-		return errors.New("equipment category not found")
+		return fmt.Errorf("equipment category %w", trick.ErrNotFound)
 	}
 	delete(s.items, id)
 	return nil
@@ -164,5 +165,19 @@ func TestDeleteCategory_ReferencedTrickDeleted(t *testing.T) {
 
 	if w.Code != 200 {
 		t.Fatalf("expected status 200, got %d, body: %s", w.Code, w.Body.String())
+	}
+}
+
+func TestDeleteCategory_DBError(t *testing.T) {
+	h, repo, trickRepo := newCategoryHandlerForDeleteTest()
+	trickRepo.countErr = errors.New("db connection refused")
+
+	w := doDeleteCategory(h, "1")
+
+	if w.Code != 500 {
+		t.Fatalf("expected status 500, got %d, body: %s", w.Code, w.Body.String())
+	}
+	if _, ok := repo.items[1]; !ok {
+		t.Fatalf("expected category not to be deleted")
 	}
 }

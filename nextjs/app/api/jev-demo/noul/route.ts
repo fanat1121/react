@@ -1,11 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getJevClient } from '@/_pages/jevDemo/api/jevClient';
 import { toJevErrorResponse } from '@/_pages/jevDemo/api/jevErrorResponse';
+import { requireJevDemoSession } from '@/_pages/jevDemo/api/requireJevDemoSession';
 import { STATEMENT_MAX_LENGTH } from '@/_pages/jevDemo/const/noul';
 import { noulRequestSchema } from '@/_pages/jevDemo/schemas/schema';
 import { buildNoulRequest, toNoulJudgeResponse } from '@/_pages/jevDemo/utils/buildNoulRequest';
 
 export async function POST(request: NextRequest) {
+  const unauthorized = await requireJevDemoSession();
+  if (unauthorized) return unauthorized;
+
   const parsed = noulRequestSchema.safeParse(await request.json().catch(() => null));
   if (!parsed.success) {
     return NextResponse.json(

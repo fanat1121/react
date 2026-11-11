@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"go-service/internal/trick"
 	"go-service/internal/trick/service"
 	"net/http/httptest"
@@ -37,7 +38,7 @@ func (s *stubStateRepository) Create(st *trick.State) error {
 func (s *stubStateRepository) GetByID(id int) (*trick.State, error) {
 	st, ok := s.items[id]
 	if !ok {
-		return nil, errors.New("state not found")
+		return nil, fmt.Errorf("state %w", trick.ErrNotFound)
 	}
 	return st, nil
 }
@@ -52,7 +53,7 @@ func (s *stubStateRepository) GetAll() ([]*trick.State, error) {
 
 func (s *stubStateRepository) Delete(id int) error {
 	if _, ok := s.items[id]; !ok {
-		return errors.New("state not found")
+		return fmt.Errorf("state %w", trick.ErrNotFound)
 	}
 	delete(s.items, id)
 	return nil
@@ -172,5 +173,19 @@ func TestDeleteState_InUseAsEndState(t *testing.T) {
 
 	if w.Code != 409 {
 		t.Fatalf("expected status 409, got %d, body: %s", w.Code, w.Body.String())
+	}
+}
+
+func TestDeleteState_DBError(t *testing.T) {
+	h, repo, trickRepo := newStateHandlerForDeleteTest()
+	trickRepo.countErr = errors.New("db connection refused")
+
+	w := doDeleteState(h, "1")
+
+	if w.Code != 500 {
+		t.Fatalf("expected status 500, got %d, body: %s", w.Code, w.Body.String())
+	}
+	if _, ok := repo.items[1]; !ok {
+		t.Fatalf("expected state not to be deleted")
 	}
 }

@@ -4,6 +4,7 @@ package trick
 import (
 	"database/sql"
 	"errors"
+	"fmt"
 	"go-service/internal/trick/query"
 	"go-service/pkg/database"
 	"time"
@@ -66,7 +67,7 @@ func (r *MySQLStateRepository) GetByID(id int) (*State, error) {
 	s := &State{}
 	err := r.db.QueryRow(r.query.SelectByID(), id).Scan(&s.ID, &s.EquipmentID, &s.Name, &s.Description, &s.MediaURL, &s.IsInvalid, &s.CreatedAt, &s.UpdatedAt)
 	if err == sql.ErrNoRows {
-		return nil, errors.New("state not found")
+		return nil, fmt.Errorf("state %w", ErrNotFound)
 	}
 	if err != nil {
 		return nil, err
@@ -104,7 +105,7 @@ func (r *MySQLStateRepository) Delete(id int) error {
 		return err
 	}
 	if affected == 0 {
-		return errors.New("state not found")
+		return fmt.Errorf("state %w", ErrNotFound)
 	}
 	return nil
 }

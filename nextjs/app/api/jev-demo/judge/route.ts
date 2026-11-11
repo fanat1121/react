@@ -2,10 +2,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import { fetchTrickCandidates } from '@/_pages/jevDemo/api/fetchTrickCandidates';
 import { getJevClient } from '@/_pages/jevDemo/api/jevClient';
 import { toJevErrorResponse } from '@/_pages/jevDemo/api/jevErrorResponse';
+import { requireJevDemoSession } from '@/_pages/jevDemo/api/requireJevDemoSession';
 import { judgeVideo } from '@/_pages/jevDemo/api/judgeVideo';
 import { judgeRequestSchema } from '@/_pages/jevDemo/schemas/schema';
 
 export async function POST(request: NextRequest) {
+  const unauthorized = await requireJevDemoSession();
+  if (unauthorized) return unauthorized;
+
   const parsed = judgeRequestSchema.safeParse(await request.json().catch(() => null));
   if (!parsed.success) {
     return NextResponse.json(

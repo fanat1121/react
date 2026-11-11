@@ -1,10 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getJevClient } from '@/_pages/jevDemo/api/jevClient';
 import { toJevErrorResponse } from '@/_pages/jevDemo/api/jevErrorResponse';
+import { requireJevDemoSession } from '@/_pages/jevDemo/api/requireJevDemoSession';
 import { scoreRequestSchema } from '@/_pages/jevDemo/schemas/schema';
 import { buildScoreRequest, toScoreJudgeResponse } from '@/_pages/jevDemo/utils/buildScoreRequest';
 
 export async function POST(request: NextRequest) {
+  const unauthorized = await requireJevDemoSession();
+  if (unauthorized) return unauthorized;
+
   const parsed = scoreRequestSchema.safeParse(await request.json().catch(() => null));
   if (!parsed.success) {
     return NextResponse.json(

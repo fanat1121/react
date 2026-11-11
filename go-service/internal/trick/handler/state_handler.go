@@ -7,6 +7,7 @@ import (
 	"go-service/internal/trick"
 	"go-service/internal/trick/service"
 	"go-service/pkg/response"
+	"log"
 	"net/http"
 	"strconv"
 
@@ -105,7 +106,13 @@ func (h *StateHandler) DeleteState(w http.ResponseWriter, r *http.Request) {
 			response.Conflict(w, "state is in use")
 			return
 		}
-		response.NotFound(w, err.Error())
+		if errors.Is(err, trick.ErrNotFound) {
+			response.NotFound(w, err.Error())
+			return
+		}
+		// DB 障害などはドライバのエラー文を返さず 500 にする
+		log.Printf("delete failed: %v", err)
+		response.InternalServerError(w, "Internal server error")
 		return
 	}
 	response.Success(w, map[string]string{"message": "State deleted successfully"})

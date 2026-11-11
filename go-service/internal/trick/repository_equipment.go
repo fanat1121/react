@@ -3,6 +3,7 @@ package trick
 import (
 	"database/sql"
 	"errors"
+	"fmt"
 	"go-service/internal/trick/query"
 	"go-service/pkg/database"
 	"time"
@@ -63,7 +64,7 @@ func (r *MySQLEquipmentRepository) GetByID(id int) (*Equipment, error) {
 	e := &Equipment{}
 	err := r.db.QueryRow(r.query.SelectByID(), id).Scan(&e.ID, &e.Name, &e.IsInvalid, &e.CreatedAt, &e.UpdatedAt)
 	if err == sql.ErrNoRows {
-		return nil, errors.New("equipment not found")
+		return nil, fmt.Errorf("equipment %w", ErrNotFound)
 	}
 	if err != nil {
 		return nil, err
@@ -101,7 +102,7 @@ func (r *MySQLEquipmentRepository) Delete(id int) error {
 		return err
 	}
 	if affected == 0 {
-		return errors.New("equipment not found")
+		return fmt.Errorf("equipment %w", ErrNotFound)
 	}
 	return nil
 }
